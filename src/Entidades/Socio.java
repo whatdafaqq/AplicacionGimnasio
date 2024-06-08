@@ -10,15 +10,15 @@ package Entidades;
  */
 public class Socio {
     private int idSocio;
-    private char dni;
-    private char nombre;
-    private char apellido;
+    private String dni;
+    private String nombre;
+    private String apellido;
     private int edad;
-    private char correo;
-    private char telefono;
+    private String correo;
+    private String telefono;
     private boolean estado;
 
-    public Socio(int idSocio, char dni, char nombre, char apellido, int edad, char correo, char telefono, boolean estado) {
+    public Socio(int idSocio, String dni, String nombre, String apellido, int edad, String correo, String telefono, boolean estado) {
         this.idSocio = idSocio;
         this.dni = dni;
         this.nombre = nombre;
@@ -37,27 +37,27 @@ public class Socio {
         this.idSocio = idSocio;
     }
 
-    public char getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(char dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
-    public char getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(char nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public char getApellido() {
+    public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(char apellido) {
+    public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
@@ -69,19 +69,19 @@ public class Socio {
         this.edad = edad;
     }
 
-    public char getCorreo() {
+    public String getCorreo() {
         return correo;
     }
 
-    public void setCorreo(char correo) {
+    public void setCorreo(String correo) {
         this.correo = correo;
     }
 
-    public char getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(char telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

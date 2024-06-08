@@ -4,7 +4,9 @@
  */
 package Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+
 
 /**
  *
@@ -12,16 +14,16 @@ import java.util.Date;
  */
 public class Membresia {
     private int idMembresia;
-    private int idSocio;
+    private Socio socio;
     private int cantidadPases;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
     private double costo;
     private boolean estado;
 
-    public Membresia(int idMembresia, int idSocio, int cantidadPases, Date fechaInicio, Date fechaFin, double costo, boolean estado) {
+    public Membresia(int idMembresia, Socio socio, int cantidadPases, LocalDate fechaInicio, LocalDate fechaFin, double costo, boolean estado) {
         this.idMembresia = idMembresia;
-        this.idSocio = idSocio;
+        this.socio = socio;
         this.cantidadPases = cantidadPases;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -37,12 +39,12 @@ public class Membresia {
         this.idMembresia = idMembresia;
     }
 
-    public int getIdSocio() {
-        return idSocio;
+    public Socio getSocio() {
+        return socio;
     }
 
-    public void setIdSocio(int idSocio) {
-        this.idSocio = idSocio;
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 
     public int getCantidadPases() {
@@ -53,19 +55,19 @@ public class Membresia {
         this.cantidadPases = cantidadPases;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -85,5 +87,6 @@ public class Membresia {
         this.estado = estado;
     }
 
+   
     
 }

@@ -10,13 +10,13 @@ package Entidades;
  */
 public class Entrenador {
      private int idEntrenador;
-    private char dni;
-    private char nombre;
-    private char apellido;
-    private char especialidad;
+    private String dni;
+    private String nombre;
+    private String apellido;
+    private String especialidad;
     private boolean estado;
 
-    public Entrenador(int idEntrenador, char dni, char nombre, char apellido, char especialidad, boolean estado) {
+    public Entrenador(int idEntrenador, String dni, String nombre, String apellido, String especialidad, boolean estado) {
         this.idEntrenador = idEntrenador;
         this.dni = dni;
         this.nombre = nombre;
@@ -33,35 +33,35 @@ public class Entrenador {
         this.idEntrenador = idEntrenador;
     }
 
-    public char getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(char dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
-    public char getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(char nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public char getApellido() {
+    public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(char apellido) {
+    public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-    public char getEspecialidad() {
+    public String getEspecialidad() {
         return especialidad;
     }
 
-    public void setEspecialidad(char especialidad) {
+    public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
 
@@ -72,6 +72,7 @@ public class Entrenador {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
+
+  
     
 }

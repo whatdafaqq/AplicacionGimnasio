@@ -12,16 +12,16 @@ import java.time.LocalTime;
  */
 public class Clase {
     private int idClase;
-    private char nombre;
-    private int idEntrenador;
+    private String nombre;
+    private Entrenador entrenador;
     private LocalTime horario;
     private int capacidad;
     private boolean estado;
 
-    public Clase(int idClase, char nombre, int idEntrenador, LocalTime horario, int capacidad, boolean estado) {
+    public Clase(int idClase, String nombre, Entrenador entrenador, LocalTime horario, int capacidad, boolean estado) {
         this.idClase = idClase;
         this.nombre = nombre;
-        this.idEntrenador = idEntrenador;
+        this.entrenador = entrenador;
         this.horario = horario;
         this.capacidad = capacidad;
         this.estado = estado;
@@ -35,20 +35,20 @@ public class Clase {
         this.idClase = idClase;
     }
 
-    public char getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(char nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public int getIdEntrenador() {
-        return idEntrenador;
+    public Entrenador getEntrenador() {
+        return entrenador;
     }
 
-    public void setIdEntrenador(int idEntrenador) {
-        this.idEntrenador = idEntrenador;
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
     }
 
     public LocalTime getHorario() {
@@ -74,6 +74,7 @@ public class Clase {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
     
     
 }

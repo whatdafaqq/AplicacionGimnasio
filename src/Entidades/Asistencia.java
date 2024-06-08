@@ -4,7 +4,7 @@
  */
 package Entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -12,14 +12,14 @@ import java.util.Date;
  */
 public class Asistencia {
     private int idAsistencia;
-    private int idSocio;
-    private int idClase;
-    private Date fechaAsistencia;
+    private Socio socio;
+    private Clase clase;
+    private LocalDate fechaAsistencia;
 
-    public Asistencia(int idAsistencia, int idSocio, int idClase, Date fechaAsistencia) {
+    public Asistencia(int idAsistencia, Socio socio, Clase clase, LocalDate fechaAsistencia) {
         this.idAsistencia = idAsistencia;
-        this.idSocio = idSocio;
-        this.idClase = idClase;
+        this.socio = socio;
+        this.clase = clase;
         this.fechaAsistencia = fechaAsistencia;
     }
 
@@ -31,29 +31,29 @@ public class Asistencia {
         this.idAsistencia = idAsistencia;
     }
 
-    public int getIdSocio() {
-        return idSocio;
+    public Socio getSocio() {
+        return socio;
     }
 
-    public void setIdSocio(int idSocio) {
-        this.idSocio = idSocio;
+    public void setSocio(Socio socio) {
+        this.socio = socio;
     }
 
-    public int getIdClase() {
-        return idClase;
+    public Clase getClase() {
+        return clase;
     }
 
-    public void setIdClase(int idClase) {
-        this.idClase = idClase;
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 
-    public Date getFechaAsistencia() {
+    public LocalDate getFechaAsistencia() {
         return fechaAsistencia;
     }
 
-    public void setFechaAsistencia(Date fechaAsistencia) {
+    public void setFechaAsistencia(LocalDate fechaAsistencia) {
         this.fechaAsistencia = fechaAsistencia;
     }
-    
+
     
 }
