@@ -29,7 +29,7 @@ public class SocioData {
                 + "values (?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, s.getDni());
             ps.setString(2, s.getNombre());
             ps.setString(3, s.getApellido());
@@ -47,6 +47,7 @@ public class SocioData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar un socio");
+            ex.printStackTrace();
         }
 
     }

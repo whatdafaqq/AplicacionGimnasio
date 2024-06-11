@@ -18,6 +18,9 @@ public class Clase {
     private int capacidad;
     private boolean estado;
 
+    public Clase(){
+        
+    }
     public Clase(int idClase, String nombre, Entrenador entrenador, LocalTime horario, int capacidad, boolean estado) {
         this.idClase = idClase;
         this.nombre = nombre;

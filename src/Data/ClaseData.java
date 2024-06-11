@@ -1,13 +1,99 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Data;
 
-/**
- *
- * @author ramir
- */
+import Entidades.Clase;
+import Entidades.Entrenador;
+import java.sql.*;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 public class ClaseData {
-    
+    private Connection conn;
+
+    public ClaseData() {
+        conn = Conexion.getConnection();
+    }
+
+    public void agregarClase(Clase c) {
+        String sql = "INSERT INTO clases ( Nombre, ID_Entrenador, Horario, Capacidad, Estado) VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            ps.setString(1, c.getNombre());
+            ps.setInt(2, c.getEntrenador().getIdEntrenador());
+            ps.setTime(3, Time.valueOf(c.getHorario()));
+            ps.setInt(4, c.getCapacidad());
+            ps.setBoolean(5, c.isEstado());
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                c.setIdClase(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Clase agregada con éxito!");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al agregar una clase: " + ex.getMessage());
+        }
+    }
+
+    public List<Clase> listarClases() {
+        String sql = "SELECT * FROM clases";
+        List<Clase> lista = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                Entrenador entrenador = new Entrenador();
+                entrenador.setIdEntrenador(rs.getInt("ID_Entrenador"));
+
+                Clase clase = new Clase(
+                    rs.getInt("ID_Clase"),
+                    rs.getString("Nombre"),
+                    entrenador,
+                    rs.getTime("Horario").toLocalTime(),
+                    rs.getInt("Capacidad"),
+                    rs.getBoolean("Estado")
+                );
+                lista.add(clase);
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar las clases: " + ex.getMessage());
+        }
+        return lista;
+    }
+
+    public void actualizarClase(Clase c) {
+        String sql = "UPDATE clases SET ID_Clase = ?, Nombre = ?, ID_Entrenador = ?, Horario = ?, Capacidad = ?, Estado = ? WHERE ID_Clase = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, c.getIdClase());
+            ps.setString(2, c.getNombre());
+            ps.setInt(3, c.getEntrenador().getIdEntrenador());
+            ps.setTime(4, Time.valueOf(c.getHorario()));
+            ps.setInt(5, c.getCapacidad());
+            ps.setBoolean(6, c.isEstado());
+            ps.setInt(7, c.getIdClase());
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Clase actualizada con éxito!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar la clase: " + ex.getMessage());
+        }
+    }
+
+    public void eliminarClase(int id) {
+        String sql = "DELETE FROM clases WHERE ID_Clase = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            ps.close();
+            JOptionPane.showMessageDialog(null, "Clase eliminada con éxito!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar la clase: " + ex.getMessage());
+        }
+    }
 }

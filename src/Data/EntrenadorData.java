@@ -35,7 +35,7 @@ public class EntrenadorData {
         ps.setBoolean(5, entrenador.isEstado());
         ps.executeUpdate();
     } catch (SQLException e) {
-        e.printStackTrace();
+           JOptionPane.showMessageDialog(null, "Error al agregar un Entrenador!");
     }
 }
     public List<Entrenador> listaEntrenadores() {
@@ -55,7 +55,7 @@ public class EntrenadorData {
             entrenadores.add(entrenador);
         }
     } catch (SQLException e) {
-        e.printStackTrace();
+         JOptionPane.showMessageDialog(null, "Error al visualizar un Entrenador!");
     }
     return entrenadores;
 }
@@ -71,7 +71,7 @@ public class EntrenadorData {
         ps.setInt(6, entrenador.getIdEntrenador());
         ps.executeUpdate();
     } catch (SQLException e) {
-        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al actualizar un Entrenador!");
     }
 }
 
@@ -81,7 +81,7 @@ public class EntrenadorData {
         ps.setInt(1, id);
         ps.executeUpdate();
     } catch (SQLException e) {
-        e.printStackTrace();
+JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!");
     }
 }
 

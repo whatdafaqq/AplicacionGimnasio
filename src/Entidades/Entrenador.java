@@ -15,6 +15,10 @@ public class Entrenador {
     private String apellido;
     private String especialidad;
     private boolean estado;
+    
+    public Entrenador(){
+        
+    }
 
     public Entrenador(int idEntrenador, String dni, String nombre, String apellido, String especialidad, boolean estado) {
         this.idEntrenador = idEntrenador;
