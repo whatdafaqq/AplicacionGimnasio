@@ -28,23 +28,23 @@ public class GymApp extends javax.swing.JFrame {
 
         jPanelMain = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        jMGestionSocios = new javax.swing.JMenu();
+        jM_Item_AddSocio = new javax.swing.JMenuItem();
+        jM_Item_ListSocios = new javax.swing.JMenuItem();
+        jM_Item_BuscarSocio = new javax.swing.JMenuItem();
+        jMGestionMembresias = new javax.swing.JMenu();
+        jM_Item_NuevaMembresia = new javax.swing.JMenuItem();
+        jM_Item_HistorialMembresia = new javax.swing.JMenuItem();
+        jM_Item_GestionarMembresia = new javax.swing.JMenuItem();
+        jMGestionClases = new javax.swing.JMenu();
+        jM_Item_AddClase = new javax.swing.JMenuItem();
+        jM_Item_ListClases = new javax.swing.JMenuItem();
+        jM_Item_BuscarClase = new javax.swing.JMenuItem();
+        jM_Item_InscribirSocioAClase = new javax.swing.JMenuItem();
+        jMGestionEntrenadores = new javax.swing.JMenu();
+        jM_Item_NewEntrenador = new javax.swing.JMenuItem();
+        jM_Item_ListEntrenadores = new javax.swing.JMenuItem();
+        jM_Item_BuscarEntrenador = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,75 +59,80 @@ public class GymApp extends javax.swing.JFrame {
             .addGap(0, 608, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Gestion De Socios");
+        jMGestionSocios.setText("Gestion De Socios");
 
-        jMenuItem1.setText("Añadir Nuevo Socio");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jM_Item_AddSocio.setText("Añadir Nuevo Socio");
+        jM_Item_AddSocio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jM_Item_AddSocioActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMGestionSocios.add(jM_Item_AddSocio);
 
-        jMenuItem2.setText("Ver lista de Socios");
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem3.setText("Buscar Socio");
-        jMenu1.add(jMenuItem3);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Gestion De Membresias");
-
-        jMenuItem4.setText("Registrar Nueva Membresia");
-        jMenu2.add(jMenuItem4);
-
-        jMenuItem5.setText("Ver Mi Historial De Membresias");
-        jMenu2.add(jMenuItem5);
-
-        jMenuItem6.setText("Gestionar Membresia");
-        jMenu2.add(jMenuItem6);
-
-        jMenuBar1.add(jMenu2);
-
-        jMenu4.setText("Gestion De Clases");
-
-        jMenuItem10.setText("Añadir Nueva Clase");
-        jMenu4.add(jMenuItem10);
-
-        jMenuItem11.setText("Ver Lista De Clases");
-        jMenu4.add(jMenuItem11);
-
-        jMenuItem12.setText("Buscar Clase");
-        jMenu4.add(jMenuItem12);
-
-        jMenuItem13.setText("Inscribir Socio a Clase");
-        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+        jM_Item_ListSocios.setText("Ver lista de Socios");
+        jM_Item_ListSocios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem13ActionPerformed(evt);
+                jM_Item_ListSociosActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem13);
+        jMGestionSocios.add(jM_Item_ListSocios);
 
-        jMenuBar1.add(jMenu4);
+        jM_Item_BuscarSocio.setText("Buscar Socio");
+        jMGestionSocios.add(jM_Item_BuscarSocio);
 
-        jMenu3.setText("Gestion De Entrenadores");
+        jMenuBar1.add(jMGestionSocios);
 
-        jMenuItem7.setText("Añadir Nuevo Entrenador");
-        jMenu3.add(jMenuItem7);
+        jMGestionMembresias.setText("Gestion De Membresias");
 
-        jMenuItem8.setText("Ver Lista de Entrenadores");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        jM_Item_NuevaMembresia.setText("Registrar Nueva Membresia");
+        jMGestionMembresias.add(jM_Item_NuevaMembresia);
+
+        jM_Item_HistorialMembresia.setText("Ver Mi Historial De Membresias");
+        jMGestionMembresias.add(jM_Item_HistorialMembresia);
+
+        jM_Item_GestionarMembresia.setText("Gestionar Membresia");
+        jMGestionMembresias.add(jM_Item_GestionarMembresia);
+
+        jMenuBar1.add(jMGestionMembresias);
+
+        jMGestionClases.setText("Gestion De Clases");
+
+        jM_Item_AddClase.setText("Añadir Nueva Clase");
+        jMGestionClases.add(jM_Item_AddClase);
+
+        jM_Item_ListClases.setText("Ver Lista De Clases");
+        jMGestionClases.add(jM_Item_ListClases);
+
+        jM_Item_BuscarClase.setText("Buscar Clase");
+        jMGestionClases.add(jM_Item_BuscarClase);
+
+        jM_Item_InscribirSocioAClase.setText("Inscribir Socio a Clase");
+        jM_Item_InscribirSocioAClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                jM_Item_InscribirSocioAClaseActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem8);
+        jMGestionClases.add(jM_Item_InscribirSocioAClase);
 
-        jMenuItem9.setText("Buscar Nuevo Entrenador");
-        jMenu3.add(jMenuItem9);
+        jMenuBar1.add(jMGestionClases);
 
-        jMenuBar1.add(jMenu3);
+        jMGestionEntrenadores.setText("Gestion De Entrenadores");
+
+        jM_Item_NewEntrenador.setText("Añadir Nuevo Entrenador");
+        jMGestionEntrenadores.add(jM_Item_NewEntrenador);
+
+        jM_Item_ListEntrenadores.setText("Ver Lista de Entrenadores");
+        jM_Item_ListEntrenadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jM_Item_ListEntrenadoresActionPerformed(evt);
+            }
+        });
+        jMGestionEntrenadores.add(jM_Item_ListEntrenadores);
+
+        jM_Item_BuscarEntrenador.setText("Buscar Entrenador");
+        jMGestionEntrenadores.add(jM_Item_BuscarEntrenador);
+
+        jMenuBar1.add(jMGestionEntrenadores);
 
         setJMenuBar(jMenuBar1);
 
@@ -145,17 +150,21 @@ public class GymApp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jM_Item_AddSocioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_Item_AddSocioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jM_Item_AddSocioActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void jM_Item_ListEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_Item_ListEntrenadoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_jM_Item_ListEntrenadoresActionPerformed
 
-    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+    private void jM_Item_InscribirSocioAClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_Item_InscribirSocioAClaseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem13ActionPerformed
+    }//GEN-LAST:event_jM_Item_InscribirSocioAClaseActionPerformed
+
+    private void jM_Item_ListSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jM_Item_ListSociosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jM_Item_ListSociosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,24 +202,24 @@ public class GymApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMGestionClases;
+    private javax.swing.JMenu jMGestionEntrenadores;
+    private javax.swing.JMenu jMGestionMembresias;
+    private javax.swing.JMenu jMGestionSocios;
+    private javax.swing.JMenuItem jM_Item_AddClase;
+    private javax.swing.JMenuItem jM_Item_AddSocio;
+    private javax.swing.JMenuItem jM_Item_BuscarClase;
+    private javax.swing.JMenuItem jM_Item_BuscarEntrenador;
+    private javax.swing.JMenuItem jM_Item_BuscarSocio;
+    private javax.swing.JMenuItem jM_Item_GestionarMembresia;
+    private javax.swing.JMenuItem jM_Item_HistorialMembresia;
+    private javax.swing.JMenuItem jM_Item_InscribirSocioAClase;
+    private javax.swing.JMenuItem jM_Item_ListClases;
+    private javax.swing.JMenuItem jM_Item_ListEntrenadores;
+    private javax.swing.JMenuItem jM_Item_ListSocios;
+    private javax.swing.JMenuItem jM_Item_NewEntrenador;
+    private javax.swing.JMenuItem jM_Item_NuevaMembresia;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanelMain;
     // End of variables declaration//GEN-END:variables
 }
