@@ -6,12 +6,12 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMGestionSocios">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gestion De Socios"/>
+            <Property name="text" type="java.lang.String" value="Socios"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jM_Item_AddSocio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="A&#xf1;adir Nuevo Socio"/>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adirSocio"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_AddSocioActionPerformed"/>
@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jM_Item_ListSocios">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ver lista de Socios"/>
+                <Property name="text" type="java.lang.String" value="VerSocio"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_ListSociosActionPerformed"/>
@@ -27,76 +27,30 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jM_Item_BuscarSocio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar Socio"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMGestionMembresias">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Gestion De Membresias"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_NuevaMembresia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar Nueva Membresia"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_HistorialMembresia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver Mi Historial De Membresias"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_GestionarMembresia">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Gestionar Membresia"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMGestionClases">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Gestion De Clases"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_AddClase">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="A&#xf1;adir Nueva Clase"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_ListClases">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver Lista De Clases"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_BuscarClase">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar Clase"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_InscribirSocioAClase">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Inscribir Socio a Clase"/>
+                <Property name="text" type="java.lang.String" value="BuscarSocio"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_InscribirSocioAClaseActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_BuscarSocioActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMGestionEntrenadores">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gestion De Entrenadores"/>
+            <Property name="text" type="java.lang.String" value="Entrenadores"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jM_Item_NewEntrenador">
               <Properties>
-                <Property name="text" type="java.lang.String" value="A&#xf1;adir Nuevo Entrenador"/>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir Entrenador"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_NewEntrenadorActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jM_Item_ListEntrenadores">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ver Lista de Entrenadores"/>
+                <Property name="text" type="java.lang.String" value="Ver Entrenadores"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_ListEntrenadoresActionPerformed"/>
@@ -106,6 +60,79 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar Entrenador"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_BuscarEntrenadorActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMGestionClases">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Clases"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_AddClase">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="A&#xf1;adir Clase"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_AddClaseActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_ListClases">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lista de Clases"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_ListClasesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_BuscarClase">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Buscar Clase"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_BuscarClaseActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_InscribirSocioAClase">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Incribir Socio a Clases"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_InscribirSocioAClaseActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMGestionMembresias">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Membresias"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_NuevaMembresia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="NuevaMembresia"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_NuevaMembresiaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_HistorialMembresia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Historial De Membresias"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_HistorialMembresiaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jM_Item_GestionarMembresia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Gestionar Membresias"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jM_Item_GestionarMembresiaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -135,27 +162,30 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelMain" alignment="0" max="32767" attributes="0"/>
+          <Component id="Escritorio" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelMain" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
+              <Component id="Escritorio" min="-2" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelMain">
+    <Container class="javax.swing.JDesktopPane" name="Escritorio">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="1286" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="1304" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="608" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="710" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
