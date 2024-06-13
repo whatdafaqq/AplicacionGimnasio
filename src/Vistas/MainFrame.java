@@ -30,6 +30,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabbedPane.addTab("Entrenadores", new EntrenadoresPanel());
         tabbedPane.addTab("Clases", new ClasesPanel());
          tabbedPane.addTab("Socios", new SociosPanel());
+         tabbedPane.addTab("Membresias", new SociosPanel());
         
         add(tabbedPane, BorderLayout.CENTER);
         

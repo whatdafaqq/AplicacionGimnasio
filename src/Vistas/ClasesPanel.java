@@ -8,10 +8,16 @@ package Vistas;
  *
  * @author ramir
  */
+// En la clase ClasesPanel
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import Entidades.Clase;
+import Data.ClaseData;
+import javax.swing.table.DefaultTableModel;
 
 public class ClasesPanel extends JPanel {
     private JTextField txtSearch;
@@ -34,39 +40,58 @@ public class ClasesPanel extends JPanel {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Inicializar tabla vacía
-        table = new JTable(new Object[0][0], new String[]{"ID", "Nombre", "Entrenador", "Horario"});
+        table = new JTable();
         scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Action listeners
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = txtSearch.getText();
-                // Lógica para buscar en la base de datos
-                // List<Clase> clases = ClaseDAO.searchClases(searchTerm);
-
-                // Para prueba, reemplazar con datos reales
-                Object[][] data = {
-                    {1, "Yoga", "Juan Pérez", "10:00"},
-                    {2, "Pilates", "Ana Gómez", "11:00"}
-                    // Agregar más datos según búsqueda
-                };
-                table.setModel(new javax.swing.table.DefaultTableModel(
-                        data,
-                        new String[]{"ID", "Nombre", "Entrenador", "Horario"}
-                ));
+                ClaseData cd = new ClaseData();
+                List<Clase> clases = cd.buscarClases(searchTerm);
+                actualizarTablaClases(clases);
             }
         });
 
         btnAddClase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ClasesFormDialog(null).setVisible(true);
+                ClasesFormDialog formDialog = new ClasesFormDialog(null);
+                formDialog.setVisible(true);
+                // Actualizar la tabla después de añadir una nueva clase
+                ClaseData cd = new ClaseData();
+                List<Clase> clases = cd.listarClases();
+                actualizarTablaClases(clases);
             }
         });
+
+        // Inicializar tabla con todas las clases
+        ClaseData cd = new ClaseData();
+        List<Clase> clases = cd.listarClases();
+        actualizarTablaClases(clases);
     }
+
+    private void actualizarTablaClases(List<Clase> clases) {
+        String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Clase clase : clases) {
+            Object[] row = new Object[6];
+            row[0] = clase.getIdClase();
+            row[1] = clase.getNombre();
+            row[2] = clase.getEntrenador().getNombre();
+            row[3] = clase.getHorario().toString();
+            row[4] = clase.getCapacidad();
+            row[5] = clase.isEstado() ? "Activa" : "Inactiva";
+            model.addRow(row);
+        }
+
+        table.setModel(model);
+    }
+
+
+
 
 
 

@@ -112,4 +112,31 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
         
         
     }
+    
+    public Socio buscarSocioPorNombre(String nombre) {
+        String sql = "SELECT * FROM socio WHERE nombre = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Socio socio = new Socio();
+                socio.setIdSocio(rs.getInt("ID_Socio"));
+                socio.setNombre(rs.getString("Nombre"));
+                socio.setApellido(rs.getString("Apellido"));
+                socio.setDni(rs.getString("DNI"));
+                 socio.setCorreo(rs.getString("Correo"));
+                socio.setEdad(rs.getInt("Edad"));
+                socio.setDni(rs.getString("Telefono"));
+                socio.setEstado(rs.getBoolean("Estado"));
+                return socio;
+            }
+            
+            } catch (SQLException ex) {
+            throw new RuntimeException("Error al buscar socio por nombre: " + ex.getMessage());
+        }
+
+        return null;
+    }
 }

@@ -84,6 +84,34 @@ public class EntrenadorData {
 JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!");
     }
 }
+    
+    
+    // Método para buscar un entrenador por su ID
+    public Entrenador buscarEntrenadorPorId(int id) {
+        String sql = "SELECT * FROM entrenador WHERE id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Entrenador entrenador = new Entrenador();
+                entrenador.setIdEntrenador(rs.getInt("ID_Entrenador"));
+                entrenador.setDni(rs.getString("DNI"));
+                entrenador.setNombre(rs.getString("nombre"));
+                entrenador.setApellido(rs.getString("apellido"));
+                entrenador.setEspecialidad(rs.getString("Especialidad"));
+                entrenador.setEstado(rs.getBoolean("Estado"));
+                return entrenador;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error al buscar el entrenador por ID: " + ex.getMessage());
+        }
+
+        return null;
+    }
+
 
 
 
