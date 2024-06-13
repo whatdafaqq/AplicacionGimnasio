@@ -17,10 +17,10 @@ public class BuscarClase extends javax.swing.JInternalFrame {
     private JButton btnBuscar;
 
     public BuscarClase() {
-        initComponents();
+        formDialog();
     }
 
-    private void initComponents() {
+    private void formDialog() {
         setTitle("Buscar Clase");
         setClosable(true);
         setIconifiable(true);
@@ -66,6 +66,7 @@ public class BuscarClase extends javax.swing.JInternalFrame {
     }
 
     public static void main(String[] args) {
+        
         // Crear un marco para demostrar la funcionalidad de JInternalFrame
         JFrame frame = new JFrame("Demo de JInternalFrame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +81,7 @@ public class BuscarClase extends javax.swing.JInternalFrame {
 
         frame.setVisible(true);
     }
-}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -120,3 +121,4 @@ public class BuscarClase extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
+}
