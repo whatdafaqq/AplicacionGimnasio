@@ -25,15 +25,21 @@ public class MainFrame extends javax.swing.JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
+        Color backgroundColor = new Color(0, 102, 204);
+        Color tabBackgroundColor = new Color(176, 196, 222); 
+        Color menuBackgroundColor = Color.WHITE;
+        Color menuForegroundColor = Color.BLACK;
+
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Entrenadores", new EntrenadoresPanel());
         tabbedPane.addTab("Clases", new ClasesPanel());
-         tabbedPane.addTab("Socios", new SociosPanel());
-         tabbedPane.addTab("Membresias", new SociosPanel());
-        
+        tabbedPane.addTab("Socios", new SociosPanel());
+        tabbedPane.addTab("Membresias", new SociosPanel());
+
+        tabbedPane.setBackground(tabBackgroundColor);
         add(tabbedPane, BorderLayout.CENTER);
-        
+
         // Cerrar la conexión a la base de datos al salir
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -48,10 +54,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Crear barra de menú
         JMenuBar menuBar = new JMenuBar();
-        
+
         // Menú Socios
         JMenu sociosMenu = new JMenu("Socios");
+        sociosMenu.setBackground(menuBackgroundColor);
+        sociosMenu.setForeground(menuForegroundColor);
         JMenuItem gestionarSociosItem = new JMenuItem("Gestionar Socios");
+        gestionarSociosItem.setBackground(menuBackgroundColor);
+        gestionarSociosItem.setForeground(menuForegroundColor);
         gestionarSociosItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +73,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Menú Entrenadores
         JMenu entrenadoresMenu = new JMenu("Entrenadores");
+        entrenadoresMenu.setBackground(menuBackgroundColor);
+        entrenadoresMenu.setForeground(menuForegroundColor);
         JMenuItem gestionarEntrenadoresItem = new JMenuItem("Gestionar Entrenadores");
+        gestionarEntrenadoresItem.setBackground(menuBackgroundColor);
+        gestionarEntrenadoresItem.setForeground(menuForegroundColor);
         gestionarEntrenadoresItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +89,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Menú Clases
         JMenu clasesMenu = new JMenu("Clases");
+        clasesMenu.setBackground(menuBackgroundColor);
+        clasesMenu.setForeground(menuForegroundColor);
         JMenuItem gestionarClasesItem = new JMenuItem("Gestionar Clases");
+        gestionarClasesItem.setBackground(menuBackgroundColor);
+        gestionarClasesItem.setForeground(menuForegroundColor);
         gestionarClasesItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +105,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         // Menú Membresías
         JMenu membresiasMenu = new JMenu("Membresías");
+        membresiasMenu.setBackground(menuBackgroundColor);
+        membresiasMenu.setForeground(menuForegroundColor);
         JMenuItem gestionarMembresiasItem = new JMenuItem("Gestionar Membresíaskl");
+        gestionarMembresiasItem.setBackground(menuBackgroundColor);
+        gestionarMembresiasItem.setForeground(menuForegroundColor);
         gestionarMembresiasItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,11 +126,13 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar.add(membresiasMenu);
 
         setJMenuBar(menuBar);
-        setContentPane(new JPanel());
-        
-        
-    
-       // initComponents();
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(backgroundColor);
+        setContentPane(mainPanel);
+        /**
+         * setJMenuBar(menuBar); setContentPane(new JPanel());
+         */
+        // initComponents();
     }
 
     /**
@@ -146,7 +170,7 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
-                 MainFrame frame = new MainFrame();
+                MainFrame frame = new MainFrame();
             }
         });
     }

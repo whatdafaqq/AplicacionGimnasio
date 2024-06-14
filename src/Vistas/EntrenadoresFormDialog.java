@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class EntrenadoresFormDialog extends JDialog {
+
     private JTextField txtDni;
     private JTextField txtNombre;
     private JTextField txtApellido;
@@ -29,11 +30,31 @@ public class EntrenadoresFormDialog extends JDialog {
         setLayout(new GridLayout(5, 2, 10, 10));
         setLocationRelativeTo(owner);
 
+        Color backgroundColor = Color.WHITE;
+        Color textColor = Color.BLACK; // Negro para el texto
+        Color buttonBackgroundColor = new Color(51, 255, 51); // Steel Blue
+        Color buttonTextColor = Color.BLACK;
+
         txtDni = new JTextField(20);
+        txtDni.setBackground(backgroundColor);
+        txtDni.setForeground(textColor);
+
         txtNombre = new JTextField(20);
+        txtNombre.setBackground(backgroundColor);
+        txtNombre.setForeground(textColor);
+
         txtApellido = new JTextField(20);
+        txtApellido.setBackground(backgroundColor);
+        txtApellido.setForeground(textColor);
+
         txtEspecialidad = new JTextField(20);
+        txtEspecialidad.setBackground(backgroundColor);
+        txtEspecialidad.setForeground(textColor);
+
+        // Configurar botón
         btnSave = new JButton("Guardar");
+        btnSave.setBackground(buttonBackgroundColor);
+        btnSave.setForeground(buttonTextColor);
 
         add(new JLabel("Dni:"));
         add(txtDni);
@@ -54,10 +75,10 @@ public class EntrenadoresFormDialog extends JDialog {
                 String nombre = txtNombre.getText();
                 String apellido = txtApellido.getText();
                 String especialidad = txtEspecialidad.getText();
-                
+
                 // Lógica para guardar en la base de datos usando JDBC
-                 Entrenador entrenador = new Entrenador(0, dni, nombre, apellido, especialidad, true);
-                 EntrenadorData ed = new EntrenadorData();
+                Entrenador entrenador = new Entrenador(0, dni, nombre, apellido, especialidad, true);
+                EntrenadorData ed = new EntrenadorData();
                 try {
                     ed.agregarEntrenador(entrenador);
                     JOptionPane.showMessageDialog(null, "Entrenador guardado exitosamente!");
@@ -68,8 +89,6 @@ public class EntrenadoresFormDialog extends JDialog {
             }
         });
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
