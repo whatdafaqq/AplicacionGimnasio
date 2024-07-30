@@ -107,7 +107,7 @@ public class MainFrame extends javax.swing.JFrame {
         JMenu membresiasMenu = new JMenu("Membresías");
         membresiasMenu.setBackground(menuBackgroundColor);
         membresiasMenu.setForeground(menuForegroundColor);
-        JMenuItem gestionarMembresiasItem = new JMenuItem("Gestionar Membresíaskl");
+        JMenuItem gestionarMembresiasItem = new JMenuItem("Gestionar Membresías");
         gestionarMembresiasItem.setBackground(menuBackgroundColor);
         gestionarMembresiasItem.setForeground(menuForegroundColor);
         gestionarMembresiasItem.addActionListener(new ActionListener() {

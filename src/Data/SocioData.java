@@ -139,4 +139,23 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
 
         return null;
     }
+    
+    public Socio obtenerSocioPorId(int idSocio) {
+        String sql = "SELECT * FROM Socios WHERE ID_Socio = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, idSocio);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String nombre = resultSet.getString("Nombre");
+                // Otros campos de la tabla Socios
+
+                return new Socio(idSocio, nombre, nombre, sql, idSocio, nombre, sql, true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+

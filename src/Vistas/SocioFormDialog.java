@@ -57,7 +57,7 @@ public class SocioFormDialog extends JDialog {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aquí va la lógica para guardar el entrenador en la base de datos
+                // Aquí va la lógica p3ara guardar el entrenador en la base de datos
                 String dni = txtDni.getText();
                 String nombre = txtNombre.getText();
                 String apellido = txtApellido.getText();

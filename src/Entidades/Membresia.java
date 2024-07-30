@@ -21,6 +21,11 @@ public class Membresia {
     private double costo;
     private boolean estado;
 
+    public Membresia() {
+    }
+
+    
+    
     public Membresia(int idMembresia, Socio socio, int cantidadPases, LocalDate fechaInicio, LocalDate fechaFin, double costo, boolean estado) {
         this.idMembresia = idMembresia;
         this.socio = socio;
@@ -85,6 +90,11 @@ public class Membresia {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Membresia{" + "idMembresia=" + idMembresia + ", socio=" + socio + ", cantidadPases=" + cantidadPases + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", costo=" + costo + ", estado=" + estado + '}';
     }
 
    

@@ -23,7 +23,7 @@ public class MembresiaData {
     }
 
      public void agregarMembresia(Membresia m) {
-        String sql = "INSERT INTO membresias(ID_Socio, Cantidad_Pases, Fecha_Inicio, Fecha_Fin, Costo, Estado) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO membresias(ID_Socio, CantidadPases, Fecha_Inicio, Fecha_Fin, Costo, Estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,6 +43,7 @@ public class MembresiaData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar una membresía");
+            ex.printStackTrace();
         }
     }
 
@@ -59,7 +60,7 @@ public class MembresiaData {
                 Membresia membresia = new Membresia(
                     rs.getInt("ID_Membresia"),
                     socio,
-                    rs.getInt("Cantidad_Pases"),
+                    rs.getInt("CantidadPases"),
                     rs.getDate("Fecha_Inicio").toLocalDate(),
                     rs.getDate("Fecha_Fin").toLocalDate(),
                     rs.getDouble("Costo"),
@@ -76,7 +77,7 @@ public class MembresiaData {
     }
 
     public void actualizarMembresia(Membresia m) {
-        String sql = "UPDATE membresias SET ID_Socio = ?, Cantidad_Pases = ?, Fecha_Inicio = ?, Fecha_Fin = ?, Costo = ?, Estado = ? WHERE ID_Membresia = ?";
+        String sql = "UPDATE membresias SET ID_Socio = ?, CantidadPases = ?, Fecha_Inicio = ?, Fecha_Fin = ?, Costo = ?, Estado = ? WHERE ID_Membresia = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, m.getSocio().getIdSocio());
@@ -106,5 +107,38 @@ public class MembresiaData {
             JOptionPane.showMessageDialog(null, "Error al eliminar la membresía");
         }
     }
+    
+    public List<Membresia> buscarMembresias(String criterio) {
+        List<Membresia> membresias = new ArrayList<>();
+        String sql = "SELECT * FROM Membresias WHERE ID_Socio IN (SELECT ID_Socio FROM Socios WHERE Nombre LIKE ?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, "%" + criterio + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int idMembresia = resultSet.getInt("ID_Membresia");
+                int idSocio = resultSet.getInt("ID_Socio");
+                int cantidadPases = resultSet.getInt("CantidadPases");
+                LocalDate fechaInicio = resultSet.getDate("Fecha_Inicio").toLocalDate();
+                LocalDate fechaFin = resultSet.getDate("Fecha_Fin").toLocalDate();
+                double costo = resultSet.getDouble("Costo");
+                boolean estado = resultSet.getBoolean("Estado");
+
+                Socio socio = obtenerSocioPorId(idSocio); // Este método se implementa en SocioData
+                Membresia membresia = new Membresia(idMembresia, socio, cantidadPases, fechaInicio, fechaFin, costo, estado);
+                membresias.add(membresia);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return membresias;
+    }
+    
+    private Socio obtenerSocioPorId(int idSocio) {
+        SocioData sd = new SocioData();
+        return sd.obtenerSocioPorId(idSocio);
+    }
+    
+    
 }
 

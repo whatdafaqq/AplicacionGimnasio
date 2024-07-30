@@ -4,90 +4,90 @@
  */
 package Vistas;
 
+import Data.MembresiaData;
+import Entidades.Membresia;
 import Vistas.MembresiaFormDialog;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author ramir
  */
 public class MembresiasPanel extends JPanel {
-    private JTable membresiasTable;
-    private JButton addButton, deleteButton, renewButton, searchButton;
-    private JTextField searchField;
-    private DefaultTableModel tableModel;
-
+    private JTextField txtSearch;
+    private JButton btnSearch, btnAddMembresia;
+    private JTable table;
+    private JScrollPane scrollPane;
+    
     public MembresiasPanel() {
         setLayout(new BorderLayout());
 
-        // Panel superior con el campo de búsqueda y botones
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout());
+        txtSearch = new JTextField(20);
+        btnSearch = new JButton("Buscar");
+        btnAddMembresia = new JButton("Añadir Membresía");
 
-        searchField = new JTextField(20);
-        searchButton = new JButton("Buscar");
-        addButton = new JButton("Añadir Membresía");
-        deleteButton = new JButton("Cancelar Membresía");
-        renewButton = new JButton("Renovar Membresía");
-
-        topPanel.add(new JLabel("Buscar Socio:"));
-        topPanel.add(searchField);
-        topPanel.add(searchButton);
-        topPanel.add(addButton);
-        topPanel.add(deleteButton);
-        topPanel.add(renewButton);
+        topPanel.add(new JLabel("Buscar:"));
+        topPanel.add(txtSearch);
+        topPanel.add(btnSearch);
+        topPanel.add(btnAddMembresia);
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Modelo de la tabla de membresías
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Socio", "Cantidad de Pases", "Duración (meses)", "Fecha de Inicio", "Fecha de Fin"}, 0);
-        membresiasTable = new JTable(tableModel);
-        add(new JScrollPane(membresiasTable), BorderLayout.CENTER);
+        table = new JTable();
+        scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
 
-        // Eventos
-        addButton.addActionListener(new ActionListener() {
+        btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MembresiaFormDialog(null, tableModel);
+                String searchTerm = txtSearch.getText();
+                MembresiaData md = new MembresiaData();
+                List<Membresia> membresias = md.buscarMembresias(searchTerm);
+                actualizarTablaMembresias(membresias);
             }
         });
 
-        deleteButton.addActionListener(new ActionListener() {
+        btnAddMembresia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = membresiasTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    tableModel.removeRow(selectedRow);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Seleccione una membresía para cancelar.");
-                }
+                MembresiaFormDialog formDialog = new MembresiaFormDialog(null);
+                formDialog.setVisible(true);
+                // Actualizar la tabla después de añadir una nueva membresía
+                MembresiaData md = new MembresiaData();
+                List<Membresia> membresias = md.listarMembresias();
+                actualizarTablaMembresias(membresias);
             }
         });
 
-        renewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = membresiasTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Aquí se puede agregar la lógica para renovar la membresía
-                    JOptionPane.showMessageDialog(null, "Membresía renovada.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Seleccione una membresía para renovar.");
-                }
-            }
-        });
+        // Inicializar tabla con todas las membresías
+        MembresiaData md = new MembresiaData();
+        List<Membresia> membresias = md.listarMembresias();
+        actualizarTablaMembresias(membresias);
+    }
 
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchText = searchField.getText().trim().toLowerCase();
-                // Aquí se puede agregar la lógica para filtrar las membresías por socio
-            }
-        });
+    private void actualizarTablaMembresias(List<Membresia> membresias) {
+        String[] columnNames = {"ID", "Socio", "Cantidad Pases", "Fecha Inicio", "Fecha Fin", "Costo", "Estado"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Membresia membresia : membresias) {
+            Object[] row = new Object[7];
+            row[0] = membresia.getIdMembresia();
+            row[1] = membresia.getSocio().getNombre();
+            row[2] = membresia.getCantidadPases();
+            row[3] = membresia.getFechaInicio().toString();
+            row[4] = membresia.getFechaFin().toString();
+            row[5] = membresia.getCosto();
+            row[6] = membresia.isEstado() ? "Activa" : "Inactiva";
+            model.addRow(row);
+        }
+
+        table.setModel(model);
     }
 
 

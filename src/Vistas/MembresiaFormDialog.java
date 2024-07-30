@@ -4,75 +4,91 @@ package Vistas;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
-
+import Data.MembresiaData;
+import Data.SocioData;
+import Entidades.Membresia;
+import Entidades.Socio;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MembresiaFormDialog extends JDialog {
-    private JTextField socioField, cantidadPasesField, duracionField;
-    private JButton saveButton, cancelButton;
-    private DefaultTableModel tableModel;
+    private JComboBox<Socio> cmbSocio;
+    private JTextField txtCantidadPases;
+    private JTextField txtFechaInicio;
+    private JTextField txtFechaFin;
+    private JTextField txtCosto;
+    private JCheckBox chkEstado;
+    private JButton btnSave;
 
-    public MembresiaFormDialog(Frame parent, DefaultTableModel tableModel) {
-        super(parent, "Añadir Membresía", true);
-        this.tableModel = tableModel;
-        setLayout(new GridLayout(5, 2));
+    public MembresiaFormDialog(Frame owner) {
+        super(owner, "Gestionar Membresías", true);
+        setSize(400, 300);
+        setLayout(new GridLayout(7, 2, 20, 10));
+        setLocationRelativeTo(owner);
 
-        socioField = new JTextField();
-        cantidadPasesField = new JTextField();
-        duracionField = new JTextField();
-
-        saveButton = new JButton("Guardar");
-        cancelButton = new JButton("Cancelar");
+        cmbSocio = new JComboBox<>(getSocios().toArray(new Socio[0]));
+        txtCantidadPases = new JTextField(20);
+        txtFechaInicio = new JTextField();
+        txtFechaFin = new JTextField();
+        txtCosto = new JTextField(20);
+        chkEstado = new JCheckBox("Activa");
+        btnSave = new JButton("Guardar");
 
         add(new JLabel("Socio:"));
-        add(socioField);
+        add(cmbSocio);
         add(new JLabel("Cantidad de Pases:"));
-        add(cantidadPasesField);
-        add(new JLabel("Duración (meses):"));
-        add(duracionField);
-        add(saveButton);
-        add(cancelButton);
+        add(txtCantidadPases);
+        add(new JLabel("Costo:"));
+        add(txtCosto);
+        add(new JLabel("Fecha de Inicio:"));
+        add(txtFechaInicio);
+        add(new JLabel("Fecha de Fin:"));
+        add(txtFechaFin);
+        add(new JLabel("Estado:"));
+        add(chkEstado);
+        add(new JLabel(""));
+        add(btnSave);
 
-        saveButton.addActionListener(new ActionListener() {
+        btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String socio = socioField.getText().trim();
-                String cantidadPases = cantidadPasesField.getText().trim();
-                String duracion = duracionField.getText().trim();
+                try {
+                    Socio socio = (Socio) cmbSocio.getSelectedItem();
+                    int cantidadPases = Integer.parseInt(txtCantidadPases.getText());
+                    LocalDate fechaInicio = LocalDate.now();
+                    LocalDate fechaFin = fechaInicio.plusDays(30);
+                    
+                    double costo = Double.parseDouble(txtCosto.getText());
+                    boolean estado = chkEstado.isSelected();
 
-                if (socio.isEmpty() || cantidadPases.isEmpty() || duracion.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.");
-                    return;
+                    Membresia membresia = new Membresia(0, socio, cantidadPases, fechaInicio, fechaFin, costo, estado);
+                    MembresiaData md = new MembresiaData();
+                    md.agregarMembresia(membresia);
+                    JOptionPane.showMessageDialog(null, "Membresía añadida exitosamente!");
+                    dispose();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al añadir la membresía: " + ex.getMessage());
                 }
-
-                // Aquí se puede agregar la lógica para guardar la membresía en la base de datos
-
-                // Añadir membresía a la tabla
-                tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, socio, cantidadPases, duracion, new Date(), new Date()});
-
-                dispose();
             }
         });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-
-        setSize(300, 200);
-        setLocationRelativeTo(parent);
-        setVisible(true);
     }
 
-
+    private List<Socio> getSocios() {
+        SocioData sd = new SocioData();
+        List<Socio> socios = new ArrayList<>();
+        
+        try {
+            return sd.listarSocios();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar socios: " + ex.getMessage());
+            return socios;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
