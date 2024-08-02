@@ -108,25 +108,38 @@ public class MembresiaData {
         }
     }
     
-    public List<Membresia> buscarMembresias(String criterio) {
+     public List<Membresia> buscarMembresias(String criterio) {
         List<Membresia> membresias = new ArrayList<>();
-        String sql = "SELECT * FROM Membresias WHERE ID_Socio IN (SELECT ID_Socio FROM Socios WHERE Nombre LIKE ?)";
+        String sql = "SELECT m.*, s.* FROM membresias m JOIN socios s ON m.ID_Socio = s.ID_Socio WHERE s.Nombre LIKE ?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, "%" + criterio + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int idMembresia = resultSet.getInt("ID_Membresia");
-                int idSocio = resultSet.getInt("ID_Socio");
-                int cantidadPases = resultSet.getInt("CantidadPases");
-                LocalDate fechaInicio = resultSet.getDate("Fecha_Inicio").toLocalDate();
-                LocalDate fechaFin = resultSet.getDate("Fecha_Fin").toLocalDate();
-                double costo = resultSet.getDouble("Costo");
-                boolean estado = resultSet.getBoolean("Estado");
+                // Datos de membresia
+            int idMembresia = resultSet.getInt("ID_Membresia");
+            int idSocio = resultSet.getInt("ID_Socio");
+            int cantidadPases = resultSet.getInt("CantidadPases");
+            LocalDate fechaInicio = resultSet.getDate("Fecha_Inicio").toLocalDate();
+            LocalDate fechaFin = resultSet.getDate("Fecha_Fin").toLocalDate();
+            double costo = resultSet.getDouble("Costo");
+            boolean estado = resultSet.getBoolean("Estado");
 
-                Socio socio = obtenerSocioPorId(idSocio); // Este método se implementa en SocioData
+            // Datos de socio
+            String dni = resultSet.getString("DNI");
+            String nombre = resultSet.getString("Nombre");
+            String apellido = resultSet.getString("Apellido");
+            int edad = resultSet.getInt("Edad");
+            String correo = resultSet.getString("Correo");
+            String telefono = resultSet.getString("Telefono");
+            boolean estadoSocio = resultSet.getBoolean("Estado");
+
+            Socio socio = new Socio(idSocio, dni, nombre, apellido, edad, correo, telefono, estadoSocio);
+               if (socio.getNombre() != null) {
                 Membresia membresia = new Membresia(idMembresia, socio, cantidadPases, fechaInicio, fechaFin, costo, estado);
                 membresias.add(membresia);
+            }
+            
             }
         } catch (SQLException e) {
             e.printStackTrace();

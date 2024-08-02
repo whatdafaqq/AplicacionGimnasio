@@ -28,7 +28,7 @@ public class MembresiaFormDialog extends JDialog {
     public MembresiaFormDialog(Frame owner) {
         super(owner, "Gestionar Membresías", true);
         setSize(400, 300);
-        setLayout(new GridLayout(7, 2, 20, 10));
+        setLayout(new GridLayout(7, 2, 10, 10));
         setLocationRelativeTo(owner);
 
         cmbSocio = new JComboBox<>(getSocios().toArray(new Socio[0]));
@@ -45,10 +45,10 @@ public class MembresiaFormDialog extends JDialog {
         add(txtCantidadPases);
         add(new JLabel("Costo:"));
         add(txtCosto);
-        add(new JLabel("Fecha de Inicio:"));
-        add(txtFechaInicio);
-        add(new JLabel("Fecha de Fin:"));
-        add(txtFechaFin);
+//        add(new JLabel("Fecha de Inicio:"));
+//        add(txtFechaInicio);
+//        add(new JLabel("Fecha de Fin:"));
+//        add(txtFechaFin);
         add(new JLabel("Estado:"));
         add(chkEstado);
         add(new JLabel(""));
@@ -61,7 +61,7 @@ public class MembresiaFormDialog extends JDialog {
                     Socio socio = (Socio) cmbSocio.getSelectedItem();
                     int cantidadPases = Integer.parseInt(txtCantidadPases.getText());
                     LocalDate fechaInicio = LocalDate.now();
-                    LocalDate fechaFin = fechaInicio.plusDays(30);
+                    LocalDate fechaFin = fechaInicio.plusDays(30*cantidadPases);
                     
                     double costo = Double.parseDouble(txtCosto.getText());
                     boolean estado = chkEstado.isSelected();

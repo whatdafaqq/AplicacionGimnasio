@@ -48,8 +48,15 @@ public class MembresiasPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = txtSearch.getText();
                 MembresiaData md = new MembresiaData();
-                List<Membresia> membresias = md.buscarMembresias(searchTerm);
+                List<Membresia> membresias =  md.buscarMembresias(searchTerm);
+                if (membresias.equals(searchTerm)) {
+                    
                 actualizarTablaMembresias(membresias);
+                
+                    
+                }else{
+                   JOptionPane.showMessageDialog(scrollPane,  "Escriba una membresia correcta.");
+                }
             }
         });
 
@@ -62,13 +69,15 @@ public class MembresiasPanel extends JPanel {
                 MembresiaData md = new MembresiaData();
                 List<Membresia> membresias = md.listarMembresias();
                 actualizarTablaMembresias(membresias);
+                    
+                
             }
         });
 
         // Inicializar tabla con todas las membresías
-        MembresiaData md = new MembresiaData();
-        List<Membresia> membresias = md.listarMembresias();
-        actualizarTablaMembresias(membresias);
+//        MembresiaData md = new MembresiaData();
+//        List<Membresia> membresias = md.listarMembresias();
+//        actualizarTablaMembresias(membresias);
     }
 
     private void actualizarTablaMembresias(List<Membresia> membresias) {

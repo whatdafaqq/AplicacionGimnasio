@@ -28,14 +28,14 @@ public class Main {
         
         //Agregar Socio
 //        Socio s1= new Socio(1, "123123", "rama", "aval", 12, "rama@gmail.com", "2323-23423", true);
-        Socio s2= new Socio(14, "123123", "jacinto", "lopez", 23, "asdasd@gmail.com", "2323-67678", true);
-       sd.agregarSocio(s2);
+        Socio s2= new Socio(1, "123123", "jacinto", "lopez", 23, "asdasd@gmail.com", "2323-67678", true);
+//       sd.agregarSocio(s2);
         
         //Agregar Membresia
-        Membresia m1 = new Membresia(0, s2, 3, LocalDate.of(2024, 7, 27), LocalDate.of(2024, 8, 26), 354, true);
+        Membresia m1 = new Membresia(0, s2, 3, LocalDate.of(2024, 7, 27), LocalDate.of(2024, 4, 27), 354, true);
         md.agregarMembresia(m1);
         //ListarSocios 
-           System.out.println( sd.listarSocios());
+           System.out.println(sd.listarSocios());
         //ListarMembresia
         System.out.println(md.listarMembresias());
         

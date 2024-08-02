@@ -114,7 +114,7 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
     }
     
     public Socio buscarSocioPorNombre(String nombre) {
-        String sql = "SELECT * FROM socio WHERE nombre = ?";
+        String sql = "SELECT * FROM socios WHERE Nombre = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nombre);
@@ -140,22 +140,49 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
         return null;
     }
     
+//    public Socio obtenerSocioPorId(int idSocio) {
+//        String sql = "SELECT * FROM socios WHERE ID_Socio = ?";
+//        try {
+//            PreparedStatement statement = conn.prepareStatement(sql);
+//            statement.setInt(1, idSocio);
+//            ResultSet resultSet = statement.executeQuery();
+//            if (resultSet.next()) {
+//                String nombre = resultSet.getString("Nombre");
+//                // Otros campos de la tabla Socios
+//
+//                return new Socio(idSocio, nombre, nombre, sql, idSocio, nombre, sql, true);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
     public Socio obtenerSocioPorId(int idSocio) {
-        String sql = "SELECT * FROM Socios WHERE ID_Socio = ?";
-        try {
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, idSocio);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String nombre = resultSet.getString("Nombre");
-                // Otros campos de la tabla Socios
+    Socio socio = null;
+    String sql = "SELECT * FROM socios WHERE ID_Socio = ?";
+    try {
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, idSocio);
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            int id = resultSet.getInt("ID_Socio");
+            String dni = resultSet.getString("DNI");
+            String nombre = resultSet.getString("Nombre");
+            String apellido = resultSet.getString("Apellido");
+            int edad = resultSet.getInt("Edad");
+            String email = resultSet.getString("Correo");
+            String telefono = resultSet.getString("Telefono");
+            boolean estado = resultSet.getBoolean("Estado");
 
-                return new Socio(idSocio, nombre, nombre, sql, idSocio, nombre, sql, true);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            socio = new Socio(id, dni, nombre, apellido, edad, email, telefono, estado);
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return socio;
+}
+    
+    
 }
 
