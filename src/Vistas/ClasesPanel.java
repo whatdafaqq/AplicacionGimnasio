@@ -47,32 +47,42 @@ public class ClasesPanel extends JPanel {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String searchTerm = txtSearch.getText();
-                ClaseData cd = new ClaseData();
-                List<Clase> clases = cd.buscarClases(searchTerm);
-                actualizarTablaClases(clases);
+                
+                busquedaPorNombre();
             }
         });
 
         btnAddClase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClasesFormDialog formDialog = new ClasesFormDialog(null);
-                formDialog.setVisible(true);
-                // Actualizar la tabla después de añadir una nueva clase
-                ClaseData cd = new ClaseData();
-                List<Clase> clases = cd.listarClases();
-                actualizarTablaClases(clases);
+//                ClasesFormDialog formDialog = new ClasesFormDialog(null);
+//                formDialog.setVisible(true);
+//                // Actualizar la tabla después de añadir una nueva clase
+//                ClaseData cd = new ClaseData();
+//                List<Clase> clases = cd.listarClases();
+//                actualizarTablaClases(clases);
             }
         });
 
         // Inicializar tabla con todas las clases
-        ClaseData cd = new ClaseData();
-        List<Clase> clases = cd.listarClases();
-        actualizarTablaClases(clases);
+
+//        List<Clase> clases = cd.listarClases();
+//        actualizarTablaClases(clases);
     }
 
-    private void actualizarTablaClases(List<Clase> clases) {
+    private void busquedaPorNombre() {
+        
+                ClaseData cd = new ClaseData();
+         try{
+                    if (txtSearch.getText().isEmpty()==true){ JOptionPane.showMessageDialog(null, "El campo de texto está vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);}
+                    else
+                    {
+                    List<Clase> clases = cd.buscarClases(txtSearch.getText());
+                    if(clases.isEmpty()){
+                             JOptionPane.showMessageDialog(null, "No se encontró ninguna Clase con ese nombre.");
+                            return;
+                        }
+  
         String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
@@ -89,9 +99,11 @@ public class ClasesPanel extends JPanel {
 
         table.setModel(model);
     }
+} catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al buscar socios: " + ex.getMessage());
+                }
 
-
-
+}
 
 
 

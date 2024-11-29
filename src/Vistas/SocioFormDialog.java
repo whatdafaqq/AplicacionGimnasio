@@ -10,9 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class SocioFormDialog extends JDialog {
+
     private JTextField txtDni;
     private JTextField txtNombre;
     private JTextField txtApellido;
@@ -57,26 +57,44 @@ public class SocioFormDialog extends JDialog {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aquí va la lógica p3ara guardar el entrenador en la base de datos
-                String dni = txtDni.getText();
-                String nombre = txtNombre.getText();
-                String apellido = txtApellido.getText();
-                int edad = Integer.parseInt(txtEdad.getText());
-                String correo = txtCorreo.getText();
-                String telefono = txtTelefono.getText();
-                boolean estado = chkEstado.isSelected();
 
-                Socio socio = new Socio(0, dni, nombre, apellido, edad, correo, telefono, estado);
-                SocioData sd = new SocioData();
                 try {
-                    sd.agregarSocio(socio);
-                    JOptionPane.showMessageDialog(null, "Socio guardado exitosamente!");
+
+                    logicaGuardadoDeSocio();
+
                     dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al guardar el socio: " + ex.getMessage());
                 }
             }
         });
+    }
+
+    
+
+    // Aquí va la lógica para guardar el socio en la base de datos
+    private void logicaGuardadoDeSocio() {
+
+    //Revisa que no queden campos sin completar o mal completados.
+          if (txtDni.getText().isBlank() || txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
+                || txtEdad.getText().isBlank() || txtCorreo.getText().isBlank() || txtTelefono.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos antes de agregar un socio.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+            
+        }
+        String dni = txtDni.getText();
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
+        int edad = Integer.parseInt(txtEdad.getText());
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+        boolean estado = chkEstado.isSelected();
+
+        Socio socio = new Socio(0, dni, nombre, apellido, edad, correo, telefono, estado);
+        SocioData sd = new SocioData();
+
+        sd.agregarSocio(socio);
     }
 
     /**

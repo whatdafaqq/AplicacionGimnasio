@@ -26,18 +26,31 @@ public class EntrenadorData {
         conn = Conexion.getConnection();
     }
     public void agregarEntrenador(Entrenador entrenador) {
-    String sql = "INSERT INTO Entrenadores (DNI, Nombre, Apellido, Especialidad, Estado) VALUES (?, ?, ?, ?, ?)";
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+    String sql = "INSERT INTO entrenadores (DNI, Nombre, Apellido, Especialidad, Estado) VALUES (?, ?, ?, ?, ?)";
+    
+    try{
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, entrenador.getDni());
         ps.setString(2, entrenador.getNombre());
         ps.setString(3, entrenador.getApellido());
         ps.setString(4, entrenador.getEspecialidad());
         ps.setBoolean(5, entrenador.isEstado());
-        ps.executeUpdate();
-    } catch (SQLException e) {
-           JOptionPane.showMessageDialog(null, "Error al agregar un Entrenador!");
+        ps.executeUpdate();       
+        
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if (rs.next()) {
+                entrenador.setIdEntrenador(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Entrenador Agregado con exito!");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al agregar un Entrenador" + ex.getMessage(), 
+                                      "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
     }
-}
+
     public List<Entrenador> listaEntrenadores() {
     List<Entrenador> entrenadores = new ArrayList<>();
     String sql = "SELECT * FROM Entrenadores";
@@ -111,8 +124,33 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!");
 
         return null;
     }
-
-
-
-
+    
+public List<Entrenador> buscarEntrenadorPorNombre(String nombre) {
+        String sql = "select * from entrenadores where Nombre = ?";
+         List<Entrenador> lista = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Entrenador entrenador = new Entrenador(
+                rs.getInt("ID_Entrenador"),
+                rs.getString("DNI"),
+                rs.getString("Nombre"),
+                rs.getString("Apellido"),         
+                rs.getString("Especialidad"),
+                rs.getBoolean("Estado"));
+                
+                lista.add(entrenador);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar visualizar los entrenadores");
+            ex.printStackTrace();
+        }
+        return lista;
+        
+        
+    }
+    
+    
 }

@@ -8,8 +8,11 @@ package Vistas;
  *
  * @author ramir
  */
-import javax.swing.*;
+import Data.EntrenadorData;
+
+import Entidades.Entrenador;
 import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -36,7 +39,7 @@ public class EntrenadoresPanel extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         // Inicializar tabla vacía
-        table = new JTable(new Object[0][0], new String[]{"ID", "Nombre", "Apellido", "Especialidad"});
+        table = new JTable(new Object[0][0], new String[]{"ID", "DNI", "Nombre", "Apellido", "Especialidad", "Estado"});
         scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
@@ -44,20 +47,9 @@ public class EntrenadoresPanel extends JPanel {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String searchTerm = txtSearch.getText();
-                // Lógica para buscar en la base de datos
-                // List<Entrenador> entrenadores = EntrenadorDAO.searchEntrenadores(searchTerm);
-
-                // Para prueba, reemplazar con datos reales
-                Object[][] data = {
-                    {1, "Juan", "Pérez", "Yoga"},
-                    {2, "Ana", "Gómez", "Pilates"}
-                    // Agregar más datos según búsqueda
-                };
-                table.setModel(new javax.swing.table.DefaultTableModel(
-                        data,
-                        new String[]{"ID", "Nombre", "Apellido", "Especialidad"}
-                ));
+                EntrenadorData ed = new EntrenadorData();
+                busquedaPorNombre();
+                
             }
         });
 
@@ -69,6 +61,41 @@ public class EntrenadoresPanel extends JPanel {
         });
     }
 
+    
+ private void busquedaPorNombre(){
+      EntrenadorData ed = new EntrenadorData();
+                 
+                try {
+                    if (txtSearch.getText().isEmpty()==true){
+                        JOptionPane.showMessageDialog(null, "El campo de texto está vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);}
+                    else
+                    {
+                        List<Entrenador> entrenadores = ed.buscarEntrenadorPorNombre(txtSearch.getText());
+                    if(entrenadores.isEmpty()){
+                             JOptionPane.showMessageDialog(null, "No se encontró ningun Entrenador con ese Nombre.");
+                            return;
+                        }
+                    Object[][] data = new Object[entrenadores.size()][6];
+                    for (int i = 0; i < entrenadores.size(); i++) {
+                        Entrenador entrenador = entrenadores.get(i);
+                        data[i][0] = entrenador.getIdEntrenador();
+                        data[i][1] = entrenador.getDni();
+                        data[i][2] = entrenador.getNombre();
+                        data[i][3] = entrenador.getApellido();
+                        data[i][4] = entrenador.getEspecialidad();
+                        data[i][5] = entrenador.isEstado();
+                        
+                        
+                    }
+                    table.setModel(new javax.swing.table.DefaultTableModel(
+                            data,
+                            new String[]{"ID", "DNI", "Nombre", "Apellido", "Especialidad", "Estado"}
+                    ));
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al buscar entrenadores: " + ex.getMessage());
+                }
+ }
 
     /**
      * This method is called from within the constructor to initialize the form.

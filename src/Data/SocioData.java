@@ -8,8 +8,6 @@ import Entidades.Socio;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +23,7 @@ public class SocioData {
     }
 
     public void agregarSocio(Socio s) {
+        
         String sql = "insert into socios(DNI, Nombre, Apellido, Edad, Correo, Telefono, Estado)"
                 + "values (?, ?, ?, ?, ?, ?, ?)";
 
@@ -38,15 +37,17 @@ public class SocioData {
             ps.setString(6, s.getTelefono());
             ps.setBoolean(7, s.isEstado());
             ps.executeUpdate();
-
+            
             ResultSet rs = ps.getGeneratedKeys();
+            
             if (rs.next()) {
                 s.setIdSocio(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Socio Agregado con exito!");
             }
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al agregar un socio");
+            JOptionPane.showMessageDialog(null, "Error al agregar un socio" + ex.getMessage(), 
+                                      "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
 
@@ -73,6 +74,35 @@ public class SocioData {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al intentar visualizar los socios");
+        }
+        return lista;
+        
+        
+    }
+    
+    public List<Socio> buscarSocios(String nombre) {
+        String sql = "select * from socios where Nombre = ?";
+         List<Socio> lista = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Socio socio = new Socio(
+                rs.getInt("ID_Socio"),
+                rs.getString("Dni"),
+                rs.getString("Nombre"),
+                rs.getString("Apellido"),         
+                rs.getInt("Edad"),
+                rs.getString("Correo"),
+                rs.getString("Telefono"),
+                rs.getBoolean("Estado"));
+                
+                lista.add(socio);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar visualizar los socios");
+            ex.printStackTrace();
         }
         return lista;
         
@@ -112,33 +142,33 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
         
         
     }
-    
-    public Socio buscarSocioPorNombre(String nombre) {
-        String sql = "SELECT * FROM socios WHERE Nombre = ?";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, nombre);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                Socio socio = new Socio();
-                socio.setIdSocio(rs.getInt("ID_Socio"));
-                socio.setNombre(rs.getString("Nombre"));
-                socio.setApellido(rs.getString("Apellido"));
-                socio.setDni(rs.getString("DNI"));
-                 socio.setCorreo(rs.getString("Correo"));
-                socio.setEdad(rs.getInt("Edad"));
-                socio.setDni(rs.getString("Telefono"));
-                socio.setEstado(rs.getBoolean("Estado"));
-                return socio;
-            }
-            
-            } catch (SQLException ex) {
-            throw new RuntimeException("Error al buscar socio por nombre: " + ex.getMessage());
-        }
-
-        return null;
-    }
+//    
+//    public Socio buscarSocioPorNombre(String nombre) {
+//        String sql = "SELECT * FROM socios WHERE Nombre = ?";
+//
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//            ps.setString(1, nombre);
+//            ResultSet rs = ps.executeQuery();
+//
+//            if (rs.next()) {
+//                Socio socio = new Socio();
+//                socio.setIdSocio(rs.getInt("ID_Socio"));
+//                socio.setNombre(rs.getString("Nombre"));
+//                socio.setApellido(rs.getString("Apellido"));
+//                socio.setDni(rs.getString("DNI"));
+//                 socio.setCorreo(rs.getString("Correo"));
+//                socio.setEdad(rs.getInt("Edad"));
+//                socio.setDni(rs.getString("Telefono"));
+//                socio.setEstado(rs.getBoolean("Estado"));
+//                return socio;
+//            }
+//            
+//            } catch (SQLException ex) {
+//            throw new RuntimeException("Error al buscar socio por nombre: " + ex.getMessage());
+//        }
+//
+//        return null;
+//    }
     
 //    public Socio obtenerSocioPorId(int idSocio) {
 //        String sql = "SELECT * FROM socios WHERE ID_Socio = ?";

@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * @author ramir
  */
 public class MainFrame extends javax.swing.JFrame {
-
+ private JLabel imgLabel;
     /**
      * Creates new form NewJFrame
      */
@@ -26,19 +26,32 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        Color backgroundColor = new Color(0, 102, 204);
+
+ // Panel principal con BorderLayout para centrar el contenido
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(0, 102, 202));  // Fondo del panel principal
+
+// Crear el JLabel con un tamaño preferido
+        imgLabel = new JLabel();
+        imgLabel.setPreferredSize(new Dimension(200, 100)); // Ajusta el tamaño según tus necesidades
+        imgLabel.setBackground(Color.WHITE);
+// Cargar y establecer el icono
+        Icon mIcono = new ImageIcon(getClass().getResource("dumbbell.png"));
+        imgLabel.setIcon(mIcono);
+        imgLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar la imagen
+        
+        // Agregar el JLabel al panel principal
+        mainPanel.add(imgLabel, BorderLayout.CENTER);
+        
+        // Configurar el contentPane del JFrame
+        setContentPane(mainPanel);
+        
+        Color backgroundColor = new Color(0, 102, 202);
         Color tabBackgroundColor = new Color(176, 196, 222); 
         Color menuBackgroundColor = Color.WHITE;
-        Color menuForegroundColor = Color.BLACK;
+        Color menuForegroundColor = Color.red;
 
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Entrenadores", new EntrenadoresPanel());
-        tabbedPane.addTab("Clases", new ClasesPanel());
-        tabbedPane.addTab("Socios", new SociosPanel());
-        tabbedPane.addTab("Membresias", new SociosPanel());
-
-        tabbedPane.setBackground(tabBackgroundColor);
-        add(tabbedPane, BorderLayout.CENTER);
+        
 
         // Cerrar la conexión a la base de datos al salir
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -62,11 +75,13 @@ public class MainFrame extends javax.swing.JFrame {
         JMenuItem gestionarSociosItem = new JMenuItem("Gestionar Socios");
         gestionarSociosItem.setBackground(menuBackgroundColor);
         gestionarSociosItem.setForeground(menuForegroundColor);
+        
         gestionarSociosItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setContentPane(new SociosPanel());
                 revalidate();
+                
             }
         });
         sociosMenu.add(gestionarSociosItem);
@@ -126,7 +141,10 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar.add(membresiasMenu);
 
         setJMenuBar(menuBar);
-        JPanel mainPanel = new JPanel();
+        // Mostrar la ventana
+        setVisible(true);
+        
+//        JPanel mainPanel = new JPanel();
         mainPanel.setBackground(backgroundColor);
         setContentPane(mainPanel);
         /**
@@ -170,7 +188,8 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
-                MainFrame frame = new MainFrame();
+                
+                
             }
         });
     }

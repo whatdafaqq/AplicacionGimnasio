@@ -34,7 +34,7 @@ public class ClasesFormDialog extends JDialog {
 
     public ClasesFormDialog(Frame owner) {
         super(owner, "Gestionar Clases", true);
-        setSize(600, 400);
+        setSize(400, 250);
         setLayout(new BorderLayout());
         setLocationRelativeTo(owner);
 
@@ -85,8 +85,7 @@ public class ClasesFormDialog extends JDialog {
 
                     Clase clase = new Clase(0, nombre, entrenador, horario, capacidad, estado);
                     ClaseData cd = new ClaseData();
-                    cd.agregarClase(clase);
-                    JOptionPane.showMessageDialog(null, "Clase añadida exitosamente!");
+                    cd.agregarClase(clase);              
                     dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al añadir la clase: " + ex.getMessage());

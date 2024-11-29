@@ -32,10 +32,10 @@ public class Main {
 //       sd.agregarSocio(s2);
         
         //Agregar Membresia
-        Membresia m1 = new Membresia(0, s2, 3, LocalDate.of(2024, 7, 27), LocalDate.of(2024, 4, 27), 354, true);
-        md.agregarMembresia(m1);
+//        Membresia m1 = new Membresia(0, s2, 3, LocalDate.of(2024, 7, 27), LocalDate.of(2024, 4, 27), 354, true);
+//        md.agregarMembresia(m1);
         //ListarSocios 
-           System.out.println(sd.listarSocios());
+//           System.out.println(sd.listarSocios());
         //ListarMembresia
         System.out.println(md.listarMembresias());
         

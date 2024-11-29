@@ -24,7 +24,7 @@ public class InscribirSocioDialog extends JDialog {
         setLayout(new GridLayout(3, 2, 10, 10));
         setLocationRelativeTo(owner);
 
-        cmbSocio = new JComboBox<>(new String[] {"Socio 1", "Socio 2"}); // Reemplazar con datos reales
+        cmbSocio = new JComboBox<>(new String[] {"Socio 1asdasdasasd", "Socio 2"}); // Reemplazar con datos reales
         cmbClase = new JComboBox<>(new String[] {"Yoga", "Pilates"}); // Reemplazar con datos reales
         btnSave = new JButton("Guardar");
 

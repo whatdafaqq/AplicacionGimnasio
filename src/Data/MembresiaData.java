@@ -48,14 +48,25 @@ public class MembresiaData {
     }
 
     public List<Membresia> listarMembresias() {
-        String sql = "SELECT * FROM membresias";
+        String sql = "SELECT m.ID_Membresia, s.Nombre, m.CantidadPases, m.Fecha_Inicio, m.Fecha_Fin, m.Costo, m.Estado FROM membresias m"
+                + " INNER JOIN socios s ON m.ID_Socio = s.ID_Socio";
         List<Membresia> lista = new ArrayList<>();
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Socio socio = new Socio(); // Asume que hay una forma de recuperar un socio dado su ID
-                socio.setIdSocio(rs.getInt("ID_Socio"));
+//                socio.setIdSocio(rs.getInt("ID_Socio"));
+                socio.setNombre(rs.getString("Nombre"));
+
+//String sqlSocio = "SELECT Nombre FROM socios WHERE ID_Socio = ?";
+//    PreparedStatement pstmtSocio = conn.prepareStatement(sqlSocio);
+//    pstmtSocio.setInt(1, socio.getIdSocio());
+//    ResultSet rsSocio = pstmtSocio.executeQuery();
+//
+//    if (rsSocio.next()) {
+//        socio.setNombre(rsSocio.getString("Nombre"));
+//    }
 
                 Membresia membresia = new Membresia(
                     rs.getInt("ID_Membresia"),
@@ -66,11 +77,17 @@ public class MembresiaData {
                     rs.getDouble("Costo"),
                     rs.getBoolean("Estado")
                 );
+                
+                
+                
                 lista.add(membresia);
             }
+            
+            
             rs.close();
             stmt.close();
         } catch (SQLException ex) {
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al intentar visualizar las membresías");
         }
         return lista;

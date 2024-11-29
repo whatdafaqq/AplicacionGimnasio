@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.List;
 
 public class SociosPanel extends JPanel {
@@ -47,29 +46,7 @@ public class SociosPanel extends JPanel {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String searchTerm = txtSearch.getText();
-                SocioData sd = new SocioData();
-                try {
-                    List<Socio> socios = sd.listarSocios();
-                    Object[][] data = new Object[socios.size()][8];
-                    for (int i = 0; i < socios.size(); i++) {
-                        Socio socio = socios.get(i);
-                        data[i][0] = socio.getIdSocio();
-                        data[i][1] = socio.getDni();
-                        data[i][2] = socio.getNombre();
-                        data[i][3] = socio.getApellido();
-                        data[i][4] = socio.getEdad();
-                        data[i][5] = socio.getCorreo();
-                        data[i][6] = socio.getTelefono();
-                        data[i][7] = socio.isEstado();
-                    }
-                    table.setModel(new javax.swing.table.DefaultTableModel(
-                            data,
-                            new String[]{"ID", "DNI", "Nombre", "Apellido", "Edad", "Correo", "Teléfono", "Estado"}
-                    ));
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al buscar socios: " + ex.getMessage());
-                }
+         busquedaPorNombre();
             }
         });
 
@@ -82,7 +59,41 @@ public class SociosPanel extends JPanel {
     }
 
 
-
+ void busquedaPorNombre(){
+      SocioData sd = new SocioData();
+                 
+                try {
+                    if (txtSearch.getText().isEmpty()==true){ JOptionPane.showMessageDialog(null, "El campo de texto está vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);}
+                    else
+                    {
+                    List<Socio> socios = sd.buscarSocios(txtSearch.getText());
+                    if(socios.isEmpty()){
+                             JOptionPane.showMessageDialog(null, "No se encontró ningun Socio con ese nombre.");
+                            return;
+                        }
+                    Object[][] data = new Object[socios.size()][6];
+                    for (int i = 0; i < socios.size(); i++) {
+                        Socio socio = socios.get(i);
+                        data[i][0] = socio.getIdSocio();
+                        data[i][1] = socio.getDni();
+                        data[i][2] = socio.getNombre();
+                        data[i][3] = socio.getApellido();
+                        data[i][4] = socio.getEdad();
+                        data[i][5] = socio.getCorreo();
+                        data[i][6] = socio.getTelefono();
+                        data[i][7] = socio.isEstado();
+                        
+                        
+                    }
+                    table.setModel(new javax.swing.table.DefaultTableModel(
+                            data,
+                            new String[]{"ID", "DNI", "Nombre", "Apellido", "Edad", "Correo", "Teléfono", "Estado"}
+                    ));
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al buscar socios: " + ex.getMessage());
+                }
+ }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class EntrenadoresFormDialog extends JDialog {
 
@@ -22,12 +21,13 @@ public class EntrenadoresFormDialog extends JDialog {
     private JTextField txtNombre;
     private JTextField txtApellido;
     private JTextField txtEspecialidad;
+    private JCheckBox chkEstado;
     private JButton btnSave;
 
     public EntrenadoresFormDialog(Frame owner) {
         super(owner, "Añadir Entrenador", true);
-        setSize(300, 200);
-        setLayout(new GridLayout(5, 2, 10, 10));
+        setSize(300, 300);
+        setLayout(new GridLayout(6, 2, 10, 10));
         setLocationRelativeTo(owner);
 
         Color backgroundColor = Color.WHITE;
@@ -50,6 +50,8 @@ public class EntrenadoresFormDialog extends JDialog {
         txtEspecialidad = new JTextField(20);
         txtEspecialidad.setBackground(backgroundColor);
         txtEspecialidad.setForeground(textColor);
+        
+         chkEstado = new JCheckBox("Activo");
 
         // Configurar botón
         btnSave = new JButton("Guardar");
@@ -64,30 +66,48 @@ public class EntrenadoresFormDialog extends JDialog {
         add(txtApellido);
         add(new JLabel("Especialidad:"));
         add(txtEspecialidad);
+        add(new JLabel("Estado:"));
+        add(chkEstado);
         add(new JLabel(""));
         add(btnSave);
 
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aquí va la lógica para guardar el entrenador en la base de datos
-                String dni = txtDni.getText();
-                String nombre = txtNombre.getText();
-                String apellido = txtApellido.getText();
-                String especialidad = txtEspecialidad.getText();
-
-                // Lógica para guardar en la base de datos usando JDBC
-                Entrenador entrenador = new Entrenador(0, dni, nombre, apellido, especialidad, true);
-                EntrenadorData ed = new EntrenadorData();
+                
                 try {
-                    ed.agregarEntrenador(entrenador);
-                    JOptionPane.showMessageDialog(null, "Entrenador guardado exitosamente!");
-                    dispose();
+                logicaGuardadoDeEntrenador();      
+                dispose();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar el entrenador: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error al guardar el Entrenador: " + ex.getMessage());
                 }
+                
             }
         });
+        
+    }
+    
+      // Aquí va la lógica para guardar el socio en la base de datos
+    private void logicaGuardadoDeEntrenador() {
+        
+        //Revisa que no queden campos sin completar o mal completados.
+          if (txtDni.getText().isBlank() || txtNombre.getText().isBlank() || txtApellido.getText().isBlank()
+                || txtEspecialidad.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos antes de agregar un Entrenador.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+    }
+          
+        String dni = txtDni.getText();
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
+        String especialidad = txtEspecialidad.getText();
+        boolean estado = chkEstado.isSelected();
+
+        Entrenador entrenador = new Entrenador(0, dni, nombre, apellido, especialidad, estado);
+        EntrenadorData ed = new EntrenadorData();
+
+        ed.agregarEntrenador(entrenador);
     }
 
     /**

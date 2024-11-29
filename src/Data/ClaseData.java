@@ -97,13 +97,14 @@ public class ClaseData {
         }
     }
     
-     public List<Clase> buscarClases(String searchTerm) {
+     public List<Clase> buscarClases(String nombre) {
         List<Clase> clases = new ArrayList<>();
-        String sql = "SELECT * FROM clases WHERE Nombre LIKE ? OR ID_Entrenador IN (SELECT ID_Entrenador FROM entrenadores WHERE Nombre LIKE ?)";
+        String sql = "SELECT * FROM clases WHERE Nombre LIKE ? OR"+ 
+        "ID_Entrenador IN (SELECT ID_Entrenador FROM entrenadores WHERE Nombre LIKE ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, "%" + searchTerm + "%");
-            ps.setString(2, "%" + searchTerm + "%");
+            ps.setString(1, "%" + nombre + "%");
+            ps.setString(2, "%" + nombre + "%");
 
             ResultSet rs = ps.executeQuery();
 
