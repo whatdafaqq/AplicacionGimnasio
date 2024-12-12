@@ -23,6 +23,7 @@ public class MembresiasPanel extends JPanel {
 
     private JTextField txtSearch;
     private JButton btnSearch, btnAddMembresia, btnListaDeMembresias, btnDeleteMembresia;
+    private JLabel jlBuscar;
     private JTable table;
     private JScrollPane scrollPane;
    
@@ -37,6 +38,7 @@ public class MembresiasPanel extends JPanel {
         // Agregar un panel para contener los botones
         JPanel topPanel = new JPanel();
         
+        jlBuscar = new JLabel("Buscar");
         btnSearch = new JButton("Buscar");
         txtSearch = new JTextField(20);
         btnAddMembresia = new JButton("Añadir Membresía");
@@ -45,6 +47,7 @@ public class MembresiasPanel extends JPanel {
 
         btnListaDeMembresias.setBackground(Color.GREEN);
         
+        topPanel.add(jlBuscar);
         topPanel.add(txtSearch);
         topPanel.add(btnSearch);
         topPanel.add(btnAddMembresia);
@@ -94,37 +97,11 @@ public class MembresiasPanel extends JPanel {
        btnDeleteMembresia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              int selectedRow = table.getSelectedRow();
               
-              if(selectedRow >= 0){
-                  // Obtener el ID de la membresía seleccionada
-                  int idMembresia = (int) table.getModel().getValueAt(selectedRow, 0);
-                  
-                  // Confirmar la eliminación con un diálogo
-            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar esta membresía?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-            if (opcion == JOptionPane.YES_OPTION) {
-                // Eliminar la membresía de la base de datos
-                MembresiaData md = new MembresiaData();
-                md.eliminarMembresia(idMembresia);
-
-                // Actualizar la tabla
-                List<Membresia> membresias = md.listarMembresias();
-                tablaMembresiasCompleta(membresias);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Debes seleccionar una membresía para eliminar.");
-        }
-              
-                  
+              eliminarMembresia();
                 
                   }
        });
-
-        // Inicializar tabla con todas las membresías
-//        MembresiaData md = new MembresiaData();
-//        List<Membresia> membresias = md.listarMembresias();
-////        actualizarTablaMembresias(membresias);
-
 
 
     }
@@ -176,7 +153,28 @@ public class MembresiasPanel extends JPanel {
         table.setModel(model);
         }
 
-    
+    private void eliminarMembresia(){
+        int selectedRow = table.getSelectedRow();
+              
+              if(selectedRow >= 0){ 
+                  // Obtener el ID de la membresía seleccionada
+                  int idMembresia = (int) table.getModel().getValueAt(selectedRow, 0);
+                  
+                  // Confirmar la eliminación con un diálogo
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar esta membresía?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Eliminar la membresía de la base de datos
+                MembresiaData md = new MembresiaData();
+                md.eliminarMembresia(idMembresia);
+
+                // Actualizar la tabla
+                List<Membresia> membresias = md.listarMembresias();
+                tablaMembresiasCompleta(membresias);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar una membresía para eliminar.");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

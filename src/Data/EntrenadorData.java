@@ -94,7 +94,7 @@ public class EntrenadorData {
         ps.setInt(1, id);
         ps.executeUpdate();
     } catch (SQLException e) {
-JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!");
+JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!" + e.getMessage());
     }
 }
     
@@ -125,12 +125,24 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un Entrenador!");
         return null;
     }
     
-public List<Entrenador> buscarEntrenadorPorNombre(String nombre) {
-        String sql = "select * from entrenadores where Nombre = ?";
+public List<Entrenador> searchEntrenador(String nombreORidEntrenador) {
+        String sql = "select * from entrenadores where Nombre = ? or ID_Entrenador = ?";
          List<Entrenador> lista = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nombre);
+            
+            // Verificar si el parámetro 'nombre' es un número (ID) o una cadena
+        if (isNumeric(nombreORidEntrenador)) {
+             // Si es numérico, se trata de un ID, entonces lo pasamos como parámetro en el segundo lugar
+            ps.setInt(2, Integer.parseInt(nombreORidEntrenador));
+            ps.setString(1, null); // El nombre no se utilizará
+            
+            }else {
+            // Si no es numérico, se trata de un nombre
+            ps.setString(1, nombreORidEntrenador);
+            ps.setNull(2, java.sql.Types.INTEGER);  // El ID no se utilizará. 
+        }
+        
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Entrenador entrenador = new Entrenador(
@@ -152,5 +164,12 @@ public List<Entrenador> buscarEntrenadorPorNombre(String nombre) {
         
     }
     
-    
+    private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 }

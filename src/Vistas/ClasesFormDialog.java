@@ -1,4 +1,4 @@
-/*
+        /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
@@ -14,7 +14,6 @@ import Entidades.Clase;
 import Entidades.Entrenador;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,8 +75,25 @@ public class ClasesFormDialog extends JDialog {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    String nombre = txtNombre.getText();
+                
+                logicaGuardadoDeClase();
+               
+        // Actualizar la tabla inicialmente
+//        ClaseData cd = new ClaseData();
+//        List<Clase> clases = cd.listarClases();
+//        actualizarTablaClases(clases);
+    }
+//
+            
+            private void logicaGuardadoDeClase(){
+                if (txtNombre.getText().isBlank()|| txtHorario.getText().isBlank()
+                || txtCapacidad.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos antes de agregar una Clase.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+            
+        }try{
+            String nombre = txtNombre.getText();
                     Entrenador entrenador = (Entrenador) cmbEntrenador.getSelectedItem();
                     LocalTime horario = LocalTime.parse(txtHorario.getText());
                     int capacidad = Integer.parseInt(txtCapacidad.getText());
@@ -87,32 +103,13 @@ public class ClasesFormDialog extends JDialog {
                     ClaseData cd = new ClaseData();
                     cd.agregarClase(clase);              
                     dispose();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al añadir la clase: " + ex.getMessage());
-                }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al agregar una clase: " + ex.getMessage());
+        }
             }
         });
-
-        btnBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String valor = txtBuscar.getText();
-                    ClaseData cd = new ClaseData();
-                    List<Clase> clases = cd.buscarClases(valor);
-                    actualizarTablaClases(clases);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al buscar clases: " + ex.getMessage());
-                }
             }
-        });
-
-        // Actualizar la tabla inicialmente
-        ClaseData cd = new ClaseData();
-        List<Clase> clases = cd.listarClases();
-        actualizarTablaClases(clases);
-    }
-
+            
     private List<Entrenador> getEntrenadores() {
         EntrenadorData ed = new EntrenadorData();
         try {
@@ -122,24 +119,24 @@ public class ClasesFormDialog extends JDialog {
             return new java.util.ArrayList<>();
         }
     }
-
-    private void actualizarTablaClases(List<Clase> clases) {
-        String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-
-        for (Clase clase : clases) {
-            Object[] row = new Object[6];
-            row[0] = clase.getIdClase();
-            row[1] = clase.getNombre();
-            row[2] = clase.getEntrenador().getNombre();
-            row[3] = clase.getHorario().toString();
-            row[4] = clase.getCapacidad();
-            row[5] = clase.isEstado() ? "Activa" : "Inactiva";
-            model.addRow(row);
-        }
-
-        tablaClases.setModel(model);
-    }
+////
+//    private void actualizarTablaClases(List<Clase> clases) {
+//        String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
+//        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+//
+//        for (Clase clase : clases) {
+//            Object[] row = new Object[6];
+//            row[0] = clase.getIdClase();
+//            row[1] = clase.getNombre();
+//            row[2] = clase.getEntrenador().getNombre();
+//            row[3] = clase.getHorario().toString();
+//            row[4] = clase.getCapacidad();
+//            row[5] = clase.isEstado() ? "Activa" : "Inactiva";
+//            model.addRow(row);
+//        }
+//
+//        tablaClases.setModel(model);
+//    }
 
 
 

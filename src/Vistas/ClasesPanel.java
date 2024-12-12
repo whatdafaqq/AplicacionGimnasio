@@ -9,7 +9,6 @@ package Vistas;
  * @author ramir
  */
 // En la clase ClasesPanel
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,8 +19,9 @@ import Data.ClaseData;
 import javax.swing.table.DefaultTableModel;
 
 public class ClasesPanel extends JPanel {
+
     private JTextField txtSearch;
-    private JButton btnSearch, btnAddClase;
+    private JButton btnSearch, btnAddClase, btnListaDeClases, btnEliminarClase;
     private JTable table;
     private JScrollPane scrollPane;
 
@@ -32,13 +32,19 @@ public class ClasesPanel extends JPanel {
         txtSearch = new JTextField(20);
         btnSearch = new JButton("Buscar");
         btnAddClase = new JButton("Añadir Clase");
+        btnListaDeClases = new JButton("Lista de Clases");
+        btnEliminarClase = new JButton("Eliminar Clase");
 
         topPanel.add(new JLabel("Buscar:"));
         topPanel.add(txtSearch);
         topPanel.add(btnSearch);
         topPanel.add(btnAddClase);
+        topPanel.add(btnListaDeClases);
+        topPanel.add(btnEliminarClase);
 
-        add(topPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.SOUTH);
+        add(btnListaDeClases, BorderLayout.NORTH);
+        btnListaDeClases.setBackground(Color.blue);
 
         table = new JTable();
         scrollPane = new JScrollPane(table);
@@ -47,7 +53,7 @@ public class ClasesPanel extends JPanel {
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 busquedaPorNombre();
             }
         });
@@ -55,57 +61,104 @@ public class ClasesPanel extends JPanel {
         btnAddClase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                ClasesFormDialog formDialog = new ClasesFormDialog(null);
-//                formDialog.setVisible(true);
-//                // Actualizar la tabla después de añadir una nueva clase
-//                ClaseData cd = new ClaseData();
-//                List<Clase> clases = cd.listarClases();
-//                actualizarTablaClases(clases);
+                ClasesFormDialog formDialog = new ClasesFormDialog(null);
+                formDialog.setVisible(true);
+            }
+        });
+        btnListaDeClases.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tablaClasesCompleta();
+            }
+        });
+        btnEliminarClase.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarClase();
             }
         });
 
-        // Inicializar tabla con todas las clases
-
-//        List<Clase> clases = cd.listarClases();
-//        actualizarTablaClases(clases);
     }
 
     private void busquedaPorNombre() {
-        
-                ClaseData cd = new ClaseData();
-         try{
-                    if (txtSearch.getText().isEmpty()==true){ JOptionPane.showMessageDialog(null, "El campo de texto está vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);}
-                    else
-                    {
-                    List<Clase> clases = cd.buscarClases(txtSearch.getText());
-                    if(clases.isEmpty()){
-                             JOptionPane.showMessageDialog(null, "No se encontró ninguna Clase con ese nombre.");
-                            return;
-                        }
-  
-        String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
+
+        ClaseData cd = new ClaseData();
+        try {
+            if (txtSearch.getText().isEmpty() == true) {
+                JOptionPane.showMessageDialog(null, "El campo de texto está vacío.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            } else {
+                List<Clase> clases = cd.buscarClases(txtSearch.getText());
+                if (clases.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No se encontró ninguna Clase con ese nombre.");
+                    return;
+                }
+
+                String[] columnNames = {"ID", "Nombre", "Entrenador", "Horario", "Capacidad", "Estado"};
+                DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+                for (Clase clase : clases) {
+                    Object[] row = new Object[6];
+                    row[0] = clase.getIdClase();
+                    row[1] = clase.getNombre();
+                    row[2] = clase.getEntrenador().getIdEntrenador();
+                    row[3] = clase.getHorario().toString();
+                    row[4] = clase.getCapacidad();
+                    row[5] = clase.isEstado() ? "Activa" : "Inactiva";
+                    model.addRow(row);
+                }
+
+                table.setModel(model);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al buscar Clases: " + ex.getMessage());
+        }
+
+    }
+
+    void tablaClasesCompleta() {
+
+        ClaseData cd = new ClaseData();
+        List<Clase> clases = cd.listarClases();
+
+        String[] columnNames = {"ID", "Nombre", "ID_Entrenador", "Horario", "Capacidad", "Estado"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         for (Clase clase : clases) {
             Object[] row = new Object[6];
             row[0] = clase.getIdClase();
             row[1] = clase.getNombre();
-            row[2] = clase.getEntrenador().getNombre();
-            row[3] = clase.getHorario().toString();
+            row[2] = clase.getEntrenador().getIdEntrenador();
+            row[3] = clase.getHorario();
             row[4] = clase.getCapacidad();
             row[5] = clase.isEstado() ? "Activa" : "Inactiva";
             model.addRow(row);
         }
-
         table.setModel(model);
     }
-} catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al buscar socios: " + ex.getMessage());
-                }
 
-}
+    void eliminarClase() {
+        int selectedRow = table.getSelectedRow();
 
+        if (selectedRow >= 0) {
+            // Obtener el ID del Socio seleccionado
+            int idClase = (int) table.getModel().getValueAt(selectedRow, 0);
 
+            // Confirmar la eliminación con un diálogo
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Socio?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Eliminar la membresía de la base de datos
+                ClaseData cd = new ClaseData();
+                cd.eliminarClase(idClase);
+
+                // Actualizar la tabla
+                tablaClasesCompleta();
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes seleccionar un clase para eliminar.");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -57,7 +57,13 @@ public class MembresiaFormDialog extends JDialog {
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+            logicaGuardadoDeMembresia();
+            }
+        });
+    }
+    
+    private void logicaGuardadoDeMembresia(){
+            try {
                     Socio socio = (Socio) cmbSocio.getSelectedItem();
                     int cantidadPases = Integer.parseInt(txtCantidadPases.getText());
                     LocalDate fechaInicio = LocalDate.now();
@@ -69,13 +75,12 @@ public class MembresiaFormDialog extends JDialog {
                     Membresia membresia = new Membresia(0, socio, cantidadPases, fechaInicio, fechaFin, costo, estado);
                     MembresiaData md = new MembresiaData();
                     md.agregarMembresia(membresia);
-                    JOptionPane.showMessageDialog(null, "Membresía añadida exitosamente!");
                     dispose();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al añadir la membresía: " + ex.getMessage());
+//                    JOptionPane.showMessageDialog(null, "Error al añadir la membresía: " + ex.getMessage());
+JOptionPane.showMessageDialog(null, "Por favor, rellena todos los campos antes de agregar una Clase.",
+                    "Campos vacíos", JOptionPane.WARNING_MESSAGE);
                 }
-            }
-        });
     }
 
     private List<Socio> getSocios() {

@@ -97,29 +97,33 @@ public class ClaseData {
         }
     }
     
-     public List<Clase> buscarClases(String nombre) {
+     public List<Clase> buscarClases(String nombreORidentrenador) {
         List<Clase> clases = new ArrayList<>();
-        String sql = "SELECT * FROM clases WHERE Nombre LIKE ? OR"+ 
+        String sql = "SELECT * FROM clases WHERE Nombre LIKE ? OR "+ 
         "ID_Entrenador IN (SELECT ID_Entrenador FROM entrenadores WHERE Nombre LIKE ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, "%" + nombre + "%");
-            ps.setString(2, "%" + nombre + "%");
-
+            ps.setString(1, "%" + nombreORidentrenador + "%");
+            ps.setString(2, "%" + nombreORidentrenador + "%");
+            
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Clase clase = new Clase();
+                Entrenador e = new Entrenador();
+                e.setIdEntrenador(rs.getInt("ID_Entrenador"));
+                
                 clase.setIdClase(rs.getInt("ID_Clase"));
                 clase.setNombre(rs.getString("Nombre"));
-                clase.setEntrenador(new EntrenadorData().buscarEntrenadorPorId(rs.getInt("ID_Entrenador")));
+                clase.setEntrenador(e);
                 clase.setHorario(rs.getTime("Horario").toLocalTime());
                 clase.setCapacidad(rs.getInt("Capacidad"));
                 clase.setEstado(rs.getBoolean("Estado"));
                 clases.add(clase);
             }
-
+            ps.close();
         } catch (SQLException ex) {
+            
             throw new RuntimeException("Error al buscar clases: " + ex.getMessage());
         }
 
@@ -139,45 +143,15 @@ public class ClaseData {
     }
 
 
+         // Método para verificar si una cadena es un número
+private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
+     
 }
 
-/*public List<Clase> buscarClases(String criterio, String valor) throws SQLException {
-        List<Clase> clases = new ArrayList<>();
-        String sql = "SELECT * FROM Clases WHERE " + criterio + " LIKE ?";
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-            statement.setString(1, "%" + valor + "%");
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    int idClase = resultSet.getInt("ID_Clase");
-                    String nombre = resultSet.getString("Nombre");
-                    int idEntrenador = resultSet.getInt("ID_Entrenador");
-                    LocalTime horario = resultSet.getTime("Horario").toLocalTime();
-                    int capacidad = resultSet.getInt("Capacidad");
-                    boolean estado = resultSet.getBoolean("Estado");
-
-                    EntrenadorData entrenadorData = new EntrenadorData();
-                    Entrenador entrenador = entrenadorData.obtenerEntrenador(idEntrenador);
-
-                    Clase clase = new Clase(idClase, nombre, entrenador, horario, capacidad, estado);
-                    clases.add(clase);
-                }
-            }
-        }
-        return clases;
-    }
-
-    public void inscribirSocioEnClase(int idSocio, int idClase) throws SQLException {
-        String sql = "INSERT INTO Asistencia (ID_Socio, ID_Clase, Fecha_Asistencia) VALUES (?, ?, CURDATE())";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, idSocio);
-            statement.setInt(2, idClase);
-            statement.executeUpdate();
-
-            String updateMembresia = "UPDATE Membresías SET CantidadPases = CantidadPases - 1 WHERE ID_Socio = ? AND Estado = 1";
-            try (PreparedStatement updateStatement = connection.prepareStatement(updateMembresia)) {
-                updateStatement.setInt(1, idSocio);
-                updateStatement.executeUpdate();
-            }
-        }
-    
-    */

@@ -22,7 +22,7 @@ public class MembresiaData {
         conn = Conexion.getConnection();
     }
 
-     public void agregarMembresia(Membresia m) {
+        public void agregarMembresia(Membresia m) {
         String sql = "INSERT INTO membresias(ID_Socio, CantidadPases, Fecha_Inicio, Fecha_Fin, Costo, Estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
@@ -113,7 +113,7 @@ public class MembresiaData {
     }
 
     public void eliminarMembresia(int id) {
-        String sql = "DELETE FROM membresias WHERE ID_Membresia = ?";
+        String sql = "DELETE  FROM membresias WHERE ID_Membresia = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -130,7 +130,11 @@ public class MembresiaData {
         String sql = "SELECT m.*, s.* FROM membresias m JOIN socios s ON m.ID_Socio = s.ID_Socio WHERE s.Nombre LIKE ?";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, "%" + criterio + "%");
+            
+         
+            
+            
+           statement.setString(1, "%" + criterio + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 // Datos de membresia
@@ -169,6 +173,15 @@ public class MembresiaData {
         return sd.obtenerSocioPorId(idSocio);
     }
     
-    
+       // Método para verificar si una cadena es un número
+private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
+   
 }
 

@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 public class SocioData {
 
     private Connection conn = null;
+     private JTable table;
 
     public SocioData() {
         conn = Conexion.getConnection();
@@ -80,12 +82,35 @@ public class SocioData {
         
     }
     
-    public List<Socio> buscarSocios(String nombre) {
-        String sql = "select * from socios where Nombre = ?";
+    // Método para verificar si una cadena es un número
+private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
+    
+    public List<Socio> buscarSocios(String nombreORidnombre ) {
+        String sql = "select * from socios where Nombre = ? or ID_Socio = ?";
          List<Socio> lista = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nombre);
+             
+        // Verificar si el parámetro 'nombre' es un número (ID) o una cadena
+        if (isNumeric(nombreORidnombre)) {
+             // Si es numérico, se trata de un ID, entonces lo pasamos como parámetro en el segundo lugar
+            ps.setInt(2, Integer.parseInt(nombreORidnombre));
+            ps.setString(1, null); // El nombre no se utilizará
+            
+        }else {
+            // Si no es numérico, se trata de un nombre
+            ps.setString(1, nombreORidnombre);
+            ps.setNull(2, java.sql.Types.INTEGER);  // El ID no se utilizará. 
+        }
+        
+        
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Socio socio = new Socio(
@@ -131,63 +156,20 @@ JOptionPane.showMessageDialog(null, "Error al actualizar un socio");
     }
     
     public void eliminarSocio(int id){
-        String sql ="delete * from socio";
+        String sql ="delete  from socios where ID_Socio  = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
            ps.setInt(1, id);
              ps.executeUpdate();
         } catch (SQLException ex) {
-JOptionPane.showMessageDialog(null, "Error al eliminar un socio");                
+JOptionPane.showMessageDialog(null, "Error al eliminar un socio");           
+ex.printStackTrace();
                 }
         
         
     }
-//    
-//    public Socio buscarSocioPorNombre(String nombre) {
-//        String sql = "SELECT * FROM socios WHERE Nombre = ?";
-//
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setString(1, nombre);
-//            ResultSet rs = ps.executeQuery();
-//
-//            if (rs.next()) {
-//                Socio socio = new Socio();
-//                socio.setIdSocio(rs.getInt("ID_Socio"));
-//                socio.setNombre(rs.getString("Nombre"));
-//                socio.setApellido(rs.getString("Apellido"));
-//                socio.setDni(rs.getString("DNI"));
-//                 socio.setCorreo(rs.getString("Correo"));
-//                socio.setEdad(rs.getInt("Edad"));
-//                socio.setDni(rs.getString("Telefono"));
-//                socio.setEstado(rs.getBoolean("Estado"));
-//                return socio;
-//            }
-//            
-//            } catch (SQLException ex) {
-//            throw new RuntimeException("Error al buscar socio por nombre: " + ex.getMessage());
-//        }
-//
-//        return null;
-//    }
     
-//    public Socio obtenerSocioPorId(int idSocio) {
-//        String sql = "SELECT * FROM socios WHERE ID_Socio = ?";
-//        try {
-//            PreparedStatement statement = conn.prepareStatement(sql);
-//            statement.setInt(1, idSocio);
-//            ResultSet resultSet = statement.executeQuery();
-//            if (resultSet.next()) {
-//                String nombre = resultSet.getString("Nombre");
-//                // Otros campos de la tabla Socios
-//
-//                return new Socio(idSocio, nombre, nombre, sql, idSocio, nombre, sql, true);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-    public Socio obtenerSocioPorId(int idSocio) {
+        public Socio obtenerSocioPorId(int idSocio) {
     Socio socio = null;
     String sql = "SELECT * FROM socios WHERE ID_Socio = ?";
     try {
@@ -212,6 +194,8 @@ JOptionPane.showMessageDialog(null, "Error al eliminar un socio");
     }
     return socio;
 }
+        
+
     
     
 }
