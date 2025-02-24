@@ -7,8 +7,6 @@ package Vistas;
 import Data.Conexion;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 /**
@@ -16,102 +14,98 @@ import java.sql.SQLException;
  * @author ramir
  */
 public class MainFrame extends javax.swing.JFrame {
- private JLabel imgLabel;
- private JPanel mainPanel; // Cambiar de variable local a atributo de clase
- 
+
+    private JPanel mainPanel; // Cambiar de variable local a atributo de clase
+    private JPanel contentPanel; // Panel dinámico para el contenido central
 
     /**
      * Creates new form NewJFrame
      */
     public MainFrame() {
-        
-        
+
         setTitle("Administración del Gimnasio");
-        setSize(800, 600);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-
-// // Panel principal con BorderLayout para centrar el contenido
-//        JPanel mainPanel = new JPanel(new BorderLayout());
-//        mainPanel.setBackground(new Color(0, 102, 202));  // Fondo del panel principal
-
-//new
-
- // Crear el panel principal
+        // Crear el panel principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.DARK_GRAY);
-        
-        // Encabezado
-         JLabel headerLabel = new JLabel("Sistema de Gestión de Gimnasio", JLabel.CENTER);
+
+        //Etiqueta
+        JLabel headerLabel = new JLabel("Sistema de Gestión de Gimnasio", JLabel.CENTER);
         headerLabel.setFont(new Font("Oswald", Font.BOLD, 24));
         headerLabel.setForeground(Color.white);
-        headerLabel.setOpaque(true);
-        headerLabel.setBackground(Color.RED);
         mainPanel.add(headerLabel, BorderLayout.NORTH);
-        
-        
-//         Panel central (contenido principal)
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(2, 2, 10, 10));
-        centerPanel.setBackground(Color.DARK_GRAY);
 
-        
-//// Crear el JLabel con un tamaño preferido
-//        imgLabel = new JLabel();
-//        imgLabel.setPreferredSize(new Dimension(200, 100)); // Ajusta el tamaño según tus necesidades
-//        imgLabel.setBackground(Color.WHITE);
-// Cargar y establecer el icono
-//        Icon mIcono = new ImageIcon(getClass().getResource("dumbbell.png"));
-//        imgLabel.setIcon(mIcono);
-//        imgLabel.setHorizontalAlignment(SwingConstants.CENTER); // Centrar la imagen
-//        
-//        // Agregar el JLabel al panel principal
-//        mainPanel.add(imgLabel, BorderLayout.CENTER);
-//        
-//        // Configurar el contentPane del JFrame
-//        setContentPane(mainPanel);
-//        
-//        Color backgroundColor = new Color(0, 102, 202);
-//        Color tabBackgroundColor = new Color(176, 196, 222); 
-//        Color menuBackgroundColor = Color.WHITE;
-//        Color menuForegroundColor = Color.red;
+        //new
+        // Panel dinámico para el contenido (cambiará según los botones)
+        contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(Color.DARK_GRAY);
 
-        //Lo que sigue  es new.
-        
-        // Botones estilizados
+        // Panel para la imagen o GIF
+        JPanel gifPanel = new JPanel(new BorderLayout());
+        gifPanel.setBackground(Color.DARK_GRAY);
+        gifPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Bordes transparentes
+
+        // Crear etiqueta para mostrar el GIF
+        JLabel gifLabel = new JLabel();
+        gifLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        // Cargar el GIF o imagen
+        try {
+            ImageIcon gifIcon = new ImageIcon(getClass().getResource("/icons/cbum.gif")); // Ruta del GIF
+            gifLabel.setIcon(gifIcon);// Establecer el GIF en la etiqueta
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar la imagen o GIF: " + e.getMessage());
+        }
+
+        JLabel gifSubtitle = new JLabel("Entrena como un profesional", JLabel.CENTER);
+        gifSubtitle.setFont(new Font("Roboto", Font.ITALIC, 18));
+        gifSubtitle.setForeground(Color.LIGHT_GRAY);
+
+        // Añadir el GIF al panel
+        gifPanel.add(gifLabel, BorderLayout.CENTER);
+        gifPanel.add(gifSubtitle, BorderLayout.SOUTH);
+
+        contentPanel.add(gifPanel, BorderLayout.CENTER);
+
+        // Configurar el panel principal para que el GIF tenga espacio visible
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        // Crear barra de menú
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        menuBar.setBackground(Color.DARK_GRAY);
+
         JButton btnMenuPrincipal = crearBoton("Menu", "menu.png");
         JButton btnSocios = crearBoton("Socios", "socios.png");
         JButton btnEntrenadores = crearBoton("Entrenadores", "entrenadores.png");
         JButton btnClases = crearBoton("Clases", "clases.png");
         JButton btnMembresias = crearBoton("Membresías", "membresias.png");
-        
-        centerPanel.add(btnMenuPrincipal);
-       centerPanel.add(btnSocios);
-        centerPanel.add(btnEntrenadores);
-        centerPanel.add(btnClases);
-        centerPanel.add(btnMembresias);
 
-//        mainPanel.add(centerPanel, BorderLayout.CENTER);
-        
-//        // Botón para volver al menú principal
-//        JButton btnMenuPrincipal = new JButton("Volver al Inicio");
-//        btnMenuPrincipal.setFont(new Font("Roboto", Font.BOLD, 16));
-//        btnMenuPrincipal.setForeground(Color.WHITE);
-//        btnMenuPrincipal.setBackground(new Color(30, 144, 255));
-//        btnMenuPrincipal.setFocusPainted(false);
-//        btnMenuPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        menuBar.add(btnMenuPrincipal);
+        menuBar.add(btnSocios);
+        menuBar.add(btnEntrenadores);
+        menuBar.add(btnClases);
+        menuBar.add(btnMembresias);
 
-        
-        btnMenuPrincipal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-volverAlInicio();            }
-        });
+        mainPanel.add(menuBar, BorderLayout.SOUTH);
 
-//        mainPanel.add(btnMenuPrincipal, BorderLayout.SOUTH);
-        add(mainPanel);
+//
+//         setJMenuBar(menuBar);
+//         
+        // Eventos a los botones
+        btnMenuPrincipal.addActionListener(e -> mostrarPanelInicial());
+        btnSocios.addActionListener(e -> cambiarPanel(new SociosPanel()));
+        btnEntrenadores.addActionListener(e -> cambiarPanel(new EntrenadoresPanel()));
+        btnClases.addActionListener(e -> cambiarPanel(new ClasesPanel()));
+        btnMembresias.addActionListener(e -> cambiarPanel(new MembresiasPanel()));
+
+        // Mostrar la ventana
+        setContentPane(mainPanel);
+        setVisible(true);
 
         // Cerrar la conexión a la base de datos al salir
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -124,134 +118,14 @@ volverAlInicio();            }
                 }
             }
         });
-
-        
-        
-        
-        
-        
-        
-        
-        
-        // Crear barra de menú
-        JMenuBar menuBar = new JMenuBar();
-
-
-        // Menú Socios
-//        JMenu sociosMenu = new JMenu("Socios");
-//        sociosMenu.setBackground(menuBackgroundColor);
-//        sociosMenu.setForeground(menuForegroundColor);
-//        JMenuItem gestionarSociosItem = new JMenuItem("Gestionar Socios");
-//        gestionarSociosItem.setBackground(menuBackgroundColor);
-//        gestionarSociosItem.setForeground(menuForegroundColor);
-        
-        btnSocios.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(new SociosPanel());
-                revalidate();
-                
-            }
-        });
-//        sociosMenu.add(gestionarSociosItem);
-
-        // Menú Entrenadores
-//        JMenu entrenadoresMenu = new JMenu("Entrenadores");
-//        entrenadoresMenu.setBackground(menuBackgroundColor);
-//        entrenadoresMenu.setForeground(menuForegroundColor);
-//        JMenuItem gestionarEntrenadoresItem = new JMenuItem("Gestionar Entrenadores");
-//        gestionarEntrenadoresItem.setBackground(menuBackgroundColor);
-//        gestionarEntrenadoresItem.setForeground(menuForegroundColor);
-
-        btnEntrenadores.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(new EntrenadoresPanel());
-                revalidate();
-            }
-        });
-//        entrenadoresMenu.add(gestionarEntrenadoresItem);
-        
-        
-
-        // Menú Clases
-//        JMenu clasesMenu = new JMenu("Clases");
-//        clasesMenu.setBackground(menuBackgroundColor);
-//        clasesMenu.setForeground(menuForegroundColor);
-//        JMenuItem gestionarClasesItem = new JMenuItem("Gestionar Clases");
-//        gestionarClasesItem.setBackground(menuBackgroundColor);
-//        gestionarClasesItem.setForeground(menuForegroundColor);
-
-        btnClases.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(new ClasesPanel());
-                revalidate();
-            }
-        });
-//        clasesMenu.add(gestionarClasesItem);
-
-        // Menú Membresías
-//        JMenu membresiasMenu = new JMenu("Membresías");
-//        membresiasMenu.setBackground(menuBackgroundColor);
-//        membresiasMenu.setForeground(menuForegroundColor);
-//        JMenuItem gestionarMembresiasItem = new JMenuItem("Gestionar Membresías");
-//        gestionarMembresiasItem.setBackground(menuBackgroundColor);
-//        gestionarMembresiasItem.setForeground(menuForegroundColor);
-
-        btnMembresias.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(new MembresiasPanel());
-                revalidate();
-            }
-        });
-//        membresiasMenu.add(gestionarMembresiasItem);
-
-        // Añadir menús a la barra de menú
-        menuBar.add(btnMenuPrincipal);
-        menuBar.add(btnSocios);
-        menuBar.add(btnEntrenadores);
-        menuBar.add(btnClases);
-        menuBar.add(btnMembresias);
-
-        setJMenuBar(menuBar);
-        // Mostrar la ventana
-        setVisible(true);
-        
-//        JPanel mainPanel = new JPanel();
-//        mainPanel.setBackground(backgroundColor);
-        setContentPane(mainPanel);
-        /**
-         * setJMenuBar(menuBar); setContentPane(new JPanel());
-         */
-        // initComponents();
-        
-        
-        // Panel para la imagen o GIF
-JLabel gifLabel = new JLabel();
-gifLabel.setHorizontalAlignment(JLabel.CENTER);
-
-// Cargar el GIF o imagen
-try {
-    ImageIcon gifIcon = new ImageIcon(getClass().getResource("/icons/cbum.gif")); // Ruta del GIF
-    gifLabel.setIcon(gifIcon);
-} catch (Exception e) {
-    System.out.println("No se pudo cargar la imagen o GIF: " + e.getMessage());
-}
-
-// Agregar el GIF al espacio central
-mainPanel.add(gifLabel, BorderLayout.CENTER);
-//centerPanel.add(gifLabel, BorderLayout.CENTER);
-
     }
 
-    
     private JButton crearBoton(String texto, String iconoPath) {
         JButton boton = new JButton(texto);
+
+        boton.setForeground(Color.red);
         boton.setFont(new Font("Roboto", Font.BOLD, 16));
-        boton.setForeground(Color.WHITE);
-        boton.setBackground(new Color(30, 144, 255)); // Azul gimnasio
+        boton.setBackground(Color.DARK_GRAY);
         boton.setFocusPainted(false);
         boton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
@@ -266,13 +140,45 @@ mainPanel.add(gifLabel, BorderLayout.CENTER);
 
         return boton;
     }
-    
-    // Método para volver al inicio
-private void volverAlInicio() {
-    setContentPane(mainPanel);
-    revalidate(); // Actualizar la interfaz gráfica
-    repaint();
-}
+
+    private void cambiarPanel(JPanel nuevoPanel) {
+      contentPanel.removeAll();
+
+    // Estilo uniforme para todos los paneles dinámicos
+    nuevoPanel.setBackground(Color.DARK_GRAY); // Fondo oscuro
+    nuevoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Márgenes
+
+    contentPanel.add(nuevoPanel, BorderLayout.CENTER);
+    contentPanel.revalidate();
+    contentPanel.repaint();
+    }
+
+    private void mostrarPanelInicial() {
+        // Restaurar el contenido inicial (GIF y subtítulo)
+        JPanel panelInicial = new JPanel(new BorderLayout());
+        panelInicial.setBackground(Color.DARK_GRAY); // Asegurar el color de fondo oscuro
+
+        JLabel gifLabel = new JLabel();
+        gifLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        try {
+            ImageIcon gifIcon = new ImageIcon(getClass().getResource("/icons/cbum.gif"));
+            gifLabel.setIcon(gifIcon);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar la imagen o GIF: " + e.getMessage());
+        }
+
+        JLabel gifSubtitle = new JLabel("Entrena como un profesional", JLabel.CENTER);
+        gifSubtitle.setFont(new Font("Roboto", Font.ITALIC, 18));
+        gifSubtitle.setForeground(Color.LIGHT_GRAY);
+
+        panelInicial.add(gifLabel, BorderLayout.CENTER);
+        panelInicial.add(gifSubtitle, BorderLayout.SOUTH);
+
+        cambiarPanel(panelInicial);
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -308,8 +214,7 @@ private void volverAlInicio() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
-                
-                
+
             }
         });
     }
